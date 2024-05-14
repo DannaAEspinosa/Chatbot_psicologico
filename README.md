@@ -47,7 +47,3 @@ Overview of testing methodologies used to ensure the chatbot's effectiveness, ac
 - **Diana Lorena Balanta Solano**
 - **Carlos Javier Bolaños Riascos**
 - **Danna Alexandra Espinosa Arenas**
-
-```
-
-Este archivo `README.md` ahora incluye emojis que pueden ayudar a guiar visualmente al lector a través de las secciones, haciéndolo más accesible y ameno.
