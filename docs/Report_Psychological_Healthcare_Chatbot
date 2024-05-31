@@ -218,3 +218,151 @@ We verified the compatibility of these tools with the operating system of the pe
 World Health Organization (WHO): Guides and documents on mental health and intervention strategies.
 APA Handbook of Clinical Psychology: Manuals and resources from the APA providing evidence-based techniques and strategies.
 
+## **System Design**
+
+### **Knowledge Base Modeling**
+
+
+* Description: The knowledge base contains all the information necessary for the chatbot, including psychological assessments, coping strategies, and intervention techniques.
+
+* Structure: The knowledge base will be structured into specific categories.
+
+#### 2. **Outline of the Rules(Inference engine)**
+
+Below is an outline of the rules that will define the system logic, based on the knowledge base:
+
+
+#### **Rules with Bayesian Probabilities**
+
+1. **Anxiety**
+   - **Rule 1**: If the user reports anxiety symptoms, there is a high probability that they need deep breathing techniques.
+   - **Rule 2**: If symptoms persist and are severe, there is a high probability that the user will benefit from Cognitive Behavioral Therapy (CBT).
+   - **Rule 3**: Combining mindfulness and relaxation techniques has a medium probability of improving mild anxiety.
+
+2. **Depression**
+   - **Rule 1**: If the user reports symptoms of depression, there is a high probability that behavioral activation will improve their mood.
+   - **Rule 2**: If the user experiences persistent negative thoughts, CBT has a high probability of being effective.
+   - **Rule 3**: Social support and enjoyable activities have a medium probability of improving moderate depression.
+
+3. **Stress**
+   - **Rule 1**: If the user reports high levels of stress, there is a high probability that relaxation techniques and meditation will be effective.
+   - **Rule 2**: Time management and recreational activities have a medium probability of reducing moderate stress.
+
+4. **Post-Traumatic Stress Disorder (PTSD)**
+   - **Rule 1**: If the user reports symptoms of PTSD, there is a high probability that gradual exposure will be effective under professional supervision.
+   - **Rule 2**: Cognitive therapy has a high probability of helping change trauma-related thoughts.
+
+5. **Sleep Problems**
+   - **Rule 1**: If the user reports sleep problems, there is a high probability that sleep hygiene practices will be effective.
+   - **Rule 2**: CBT-I has a high probability of being effective in changing negative thoughts about sleep.
+   - **Rule 3**: Relaxation and meditation techniques have a medium probability of improving sleep quality.
+
+6. **Anger Management**
+   - **Rule 1**: If the user reports anger management issues, there is a high probability that breathing and relaxation techniques will be effective.
+   - **Rule 2**: Cognitive restructuring has a high probability of being effective in changing negative thoughts.
+   - **Rule 3**: Physical exercise has a medium probability of helping release accumulated tension.
+
+7. **Low Self-Esteem**
+   - **Rule 1**: If the user reports low self-esteem, there is a high probability that CBT will be effective in changing negative thoughts.
+   - **Rule 2**: Positive affirmations have a medium probability of improving self-image.
+   - **Rule 3**: Setting realistic goals has a high probability of boosting confidence.
+
+#### **Bayesian Network for Each Problem**
+
+#### 1. Bayesian Network for Anxiety
+
+- **Nodes**:
+  - **Anxiety Symptoms**: (yes/no)
+  - **Anxiety Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (breathing/mindfulness/CBT)
+  - **Treatment Effectiveness**: (high/medium/low)
+
+- **Relationships**:
+  - Anxiety Symptoms -> Anxiety Diagnosis
+  - Anxiety Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
+
+#### 2. Bayesian Network for Depression
+- **Nodes:**
+
+- **Depression Symptoms**: (yes/no)
+- **Depression Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (behavioral activation/CBT/social support)
+- **Treatment Effectiveness**: (high/medium/low)
+
+- **Relationships:**
+
+- Depression Symptoms -> Depression Diagnosis
+- Depression Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
+
+#### 3. Bayesian Network for Stress
+- **Nodes:**
+
+- **Stress Symptoms**: (yes/no)
+- **Stress Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (relaxation/time management/recreation)
+- **Treatment Effectiveness**: (high/medium/low)
+
+- **Relationships:**
+
+- Stress Symptoms -> Stress Diagnosis
+- Stress Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
+
+#### 4. Bayesian Network for Post-Traumatic Stress Disorder (PTSD)
+- **Nodes:**
+
+- **PTSD Symptoms**: (yes/no)
+- **PTSD Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (gradual exposure/cognitive therapy/mindfulness)
+- **Treatment Effectiveness**: (high/medium/low)
+
+**Relationships:**
+
+- PTSD Symptoms -> PTSD Diagnosis
+- PTSD Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
+
+#### 5. Bayesian Network for Sleep Problems
+- **Nodes:**
+
+- **Sleep Problems**: (yes/no)
+- **Sleep Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (sleep hygiene/CBT-I/relaxation)
+- **Treatment Effectiveness**: (high/medium/low)
+
+**Relationships:**
+
+- Sleep Problems -> Sleep Diagnosis
+- Sleep Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
+
+
+#### 6. Bayesian Network for Anger Management
+**Nodes:**
+
+- **Anger Symptoms**: (yes/no)
+- **Anger Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (breathing/relaxation/cognitive restructuring)
+- **Treatment Effectiveness**: (high/medium/low)
+
+**Relationships:**
+
+- Anger Symptoms -> Anger Diagnosis
+- Anger Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
+
+#### 7. Bayesian Network for Low Self-Esteem
+**Nodes:**
+
+- **Low Self-Esteem Symptoms**: (yes/no)
+- **Self-Esteem Diagnosis**: (mild/moderate/severe)
+- **Coping Strategies**: (CBT/positive affirmations/goal setting)
+- **Treatment Effectiveness**: (high/medium/low)
+
+**Relationships:**
+
+- Low Self-Esteem Symptoms -> Self-Esteem Diagnosis
+- Self-Esteem Diagnosis -> Coping Strategies
+- Coping Strategies -> Treatment Effectiveness
