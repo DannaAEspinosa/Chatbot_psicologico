@@ -11,3 +11,64 @@ In today's digital era, access to mental health services remains a significant c
 
 This project focuses on developing a medium-complexity expert system chatbot for psychological healthcare using Python and the Experta and pgmpy libraries. The system is designed to offer personalized, evidence-based support to users experiencing psychological distress or seeking mental health guidance, utilizing Bayesian networks to model probabilistic relationships between symptoms, diagnoses, and treatment recommendations.
 
+## **Problem Statement and Objectives**
+
+
+### **Problem Statement:**
+Accessing mental health services is a significant challenge due to various barriers, including social stigma, high costs, and limited availability of qualified professionals. These barriers prevent many individuals from receiving the necessary help and support, leading to the worsening of untreated mental health issues.
+
+### **Objectives:**
+The main objective of this project is to develop a medium-complexity expert system chatbot for psychological healthcare using Python and the Experta and pgmpy libraries. The specific objectives are:
+
+* Provide an accessible and confidential platform for users to receive psychological support and guidance.
+
+* Utilize Bayesian networks to model and evaluate the probabilistic relationships between symptoms, diagnoses, and treatment recommendations.
+
+* Develop a chatbot that can interact conversationally with users, assessing their psychological state and providing appropriate responses based on expert knowledge.
+
+* Validate the chatbot's accuracy and effectiveness through usability testing and validation against established psychological principles.
+
+* Ensure the system complies with privacy regulations and ethical guidelines regarding user data and confidentiality.
+
+### **Definition of the Scope of the Problem**
+
+The chatbot will function similarly to a psychologist, starting with a greeting and asking how the user is doing and if they would like to share anything, always ensuring that the conversation is confidential. The system will identify the reason for the consultation without asking directly and will paraphrase what the user shares, providing a brief summary. It will offer strategies and tools useful in moments of crisis, words of support, and will work with issues that are solvable by the user, avoiding topics beyond its scope. This interaction will be based on user information, conversation, and generated recommendations.
+
+### **Identification of Users**
+
+The primary users of this system will be:
+
+* Students at Universidad Icesi who need psychological support.
+
+* Collaborators and administrative staff at Universidad Icesi seeking mental health assistance.
+
+* The University Welfare Department, which will use the system to provide quick and early support for the emotional problems of the Icesista community.
+
+
+### **System Benefits**
+
+The expert system chatbot for psychological assistance will provide the following benefits:
+
+1. **Accessibility:** It will facilitate access to psychological support services at any time and from anywhere.
+
+2. **Confidentiality:** It will offer a safe and confidential environment for users to express their problems without fear of stigma.
+
+3. **Early Intervention:** It will help detect and manage emotional problems early, preventing the worsening of conditions.
+
+4. **Continuous Support:** It will provide ongoing resources and coping strategies to improve users' mental health and well-being.
+
+5. **Ease of Use**: A user-friendly interface that facilitates interaction and access to the necessary help.
+
+###  **Feasibility Test**
+
+### **Technical:**
+We evaluated the capabilities of Python libraries, especially Experta for expert systems logic, and others like Pandas for data management. This evaluation included the installation and testing of each library to ensure adequate compatibility and functionality.
+
+We also reviewed the documentation of each tool to ensure sufficient support and usage examples that facilitate learning and implementation.
+
+### **Financial:**
+We confirmed that all necessary resources are free and open-source, suitable for academic use without incurring additional costs. This also includes verifying that no additional hardware investments are required, using personal equipment that meets the minimum software requirements.
+
+### **Operational:**
+We verified the compatibility of these tools with the operating system of the personal computer to be used and ensured that sufficient time is available within the semester to complete the project, considering other academic responsibilities.
+
