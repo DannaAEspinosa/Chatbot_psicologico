@@ -92,3 +92,23 @@ class PsychologicalSupport(KnowledgeEngine):
     @Rule(Fact(sentimientos_suicidas="si"))
     def suicidal_thoughts(self):
         self.declare(Fact(response="Los pensamientos suicidas son muy serios. Por favor, busca ayuda inmediata de un profesional de salud mental or llama a una línea de ayuda."))
+
+    @Rule(Fact(preocupacion_academica="alta"))
+    def high_academic_stress(self):
+        self.declare(Fact(response="El estrés académico puede ser muy desafiante. Intenta organizar tu tiempo y buscar ayuda in tutores or compañeros de clase."))
+
+    @Rule(Fact(soledad="si"))
+    def feeling_lonely(self):
+        self.declare(Fact(response="La soledad puede afectar tu bienestar emocional. Intenta conectar con amigos or participar in actividades sociales."))
+
+    @Rule(Fact(estrés="alto"), Fact(ansiedad="alta"), salience=1)
+    def high_stress_and_anxiety(self):
+        result = inference.map_query(variables=['Depresión'], evidence={'Estrés': 1, 'Ansiedad': 1})
+        if result['Depresión'] == 1:
+            self.declare(Fact(response="El estrés y la ansiedad altos pueden llevar a la depresión. Es crucial abordar estos problemas lo antes posible."))
+        else:
+            self.declare(Fact(response="Aunque tienes estrés y ansiedad altos, no parece que estés desarrollando depresión, pero sigue siendo importante manejarlos."))
+
+    @Rule(Fact(depresión="baja"), Fact(estado_animo="feliz"))
+    def low_depression_and_happiness(self):
+        self.declare(Fact(response="Es maravilloso que tengas un bajo nivel de depresión y te sientas feliz. Mantén tus hábitos saludables y sigue cuidando de tu bienestar emocional."))
