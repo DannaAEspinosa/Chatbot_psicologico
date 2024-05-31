@@ -112,3 +112,22 @@ class PsychologicalSupport(KnowledgeEngine):
     @Rule(Fact(depresión="baja"), Fact(estado_animo="feliz"))
     def low_depression_and_happiness(self):
         self.declare(Fact(response="Es maravilloso que tengas un bajo nivel de depresión y te sientas feliz. Mantén tus hábitos saludables y sigue cuidando de tu bienestar emocional."))
+
+    @Rule(Fact(input=MATCH.input))
+    def process_user_input(self, input):
+        handled = False
+        if "estresado" in input.lower() or "tengo estres" in input.lower() or "estresada" in input.lower() or "mucho estrés" in input.lower():
+            self.modify(self.facts[3], estrés="alto")
+            handled = True
+        if "triste" in input.lower() or "me siento mal" in input.lower() or "deprimida" in input.lower() or "decaído" in input.lower():
+            self.modify(self.facts[2], estado_animo="triste")
+            handled = True
+        if "feliz" in input.lower() or "contento" in input.lower() or "alegre" in input.lower():
+            self.modify(self.facts[2], estado_animo="feliz")
+            handled = True
+        if "ansioso" in input.lower() or "tengo ansiedad" in input.lower() or "nervioso" in input.lower() or "nerviosa" in input.lower():
+            self.modify(self.facts[4], ansiedad="alta")
+            handled = True
+        if "deprimido" in input.lower() or "tengo depresion" in input.lower() or "depresión" in input.lower() or "decaído" in input.lower():
+            self.modify(self.facts[5], depresión="alta")
+            handled = True
