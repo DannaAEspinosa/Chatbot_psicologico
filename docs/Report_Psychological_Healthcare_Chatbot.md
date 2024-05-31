@@ -285,84 +285,85 @@ Below is an outline of the rules that will define the system logic, based on the
 #### 2. Bayesian Network for Depression
 - **Nodes:**
 
-- **Depression Symptoms**: (yes/no)
-- **Depression Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (behavioral activation/CBT/social support)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **Depression Symptoms**: (yes/no)
+  - **Depression Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (behavioral activation/CBT/social support)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 - **Relationships:**
 
-- Depression Symptoms -> Depression Diagnosis
-- Depression Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - Depression Symptoms -> Depression Diagnosis
+  - Depression Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
 
 #### 3. Bayesian Network for Stress
 - **Nodes:**
 
-- **Stress Symptoms**: (yes/no)
-- **Stress Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (relaxation/time management/recreation)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **Stress Symptoms**: (yes/no)
+  - **Stress Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (relaxation/time management/recreation)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 - **Relationships:**
 
-- Stress Symptoms -> Stress Diagnosis
-- Stress Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - Stress Symptoms -> Stress Diagnosis
+  - Stress Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
 
 #### 4. Bayesian Network for Post-Traumatic Stress Disorder (PTSD)
 - **Nodes:**
 
-- **PTSD Symptoms**: (yes/no)
-- **PTSD Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (gradual exposure/cognitive therapy/mindfulness)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **PTSD Symptoms**: (yes/no)
+  - **PTSD Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (gradual exposure/cognitive therapy/mindfulness)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 **Relationships:**
 
-- PTSD Symptoms -> PTSD Diagnosis
-- PTSD Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - PTSD Symptoms -> PTSD Diagnosis
+  - PTSD Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
 
 #### 5. Bayesian Network for Sleep Problems
 - **Nodes:**
 
-- **Sleep Problems**: (yes/no)
-- **Sleep Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (sleep hygiene/CBT-I/relaxation)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **Sleep Problems**: (yes/no)
+  - **Sleep Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (sleep hygiene/CBT-I/relaxation)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 **Relationships:**
 
-- Sleep Problems -> Sleep Diagnosis
-- Sleep Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - Sleep Problems -> Sleep Diagnosis
+  - Sleep Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
 
 
 #### 6. Bayesian Network for Anger Management
 **Nodes:**
 
-- **Anger Symptoms**: (yes/no)
-- **Anger Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (breathing/relaxation/cognitive restructuring)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **Anger Symptoms**: (yes/no)
+  - **Anger Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (breathing/relaxation/cognitive restructuring)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 **Relationships:**
 
-- Anger Symptoms -> Anger Diagnosis
-- Anger Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - Anger Symptoms -> Anger Diagnosis
+  - Anger Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
 
 #### 7. Bayesian Network for Low Self-Esteem
 **Nodes:**
 
-- **Low Self-Esteem Symptoms**: (yes/no)
-- **Self-Esteem Diagnosis**: (mild/moderate/severe)
-- **Coping Strategies**: (CBT/positive affirmations/goal setting)
-- **Treatment Effectiveness**: (high/medium/low)
+  - **Low Self-Esteem Symptoms**: (yes/no)
+  - **Self-Esteem Diagnosis**: (mild/moderate/severe)
+  - **Coping Strategies**: (CBT/positive affirmations/goal setting)
+  - **Treatment Effectiveness**: (high/medium/low)
 
 **Relationships:**
 
-- Low Self-Esteem Symptoms -> Self-Esteem Diagnosis
-- Self-Esteem Diagnosis -> Coping Strategies
-- Coping Strategies -> Treatment Effectiveness
+  - Low Self-Esteem Symptoms -> Self-Esteem Diagnosis
+  - Self-Esteem Diagnosis -> Coping Strategies
+  - Coping Strategies -> Treatment Effectiveness
+
