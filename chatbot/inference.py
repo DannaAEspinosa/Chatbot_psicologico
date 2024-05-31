@@ -146,4 +146,15 @@ class PsychologicalSupport(KnowledgeEngine):
         if "ocio" in input.lower() or "pasatiempos" in input.lower() or "tiempo libre" in input.lower():
             self.modify(self.facts[10], actividades_ocio="poco")
             handled = True
-       
+        if "alimentacion" in input.lower() or "dieta" in input.lower() or "comida" in input.lower():
+            self.modify(self.facts[11], alimentacion="mala")
+            handled = True
+        if "interacciones sociales" in input.lower() or "vida social" in input.lower() or "amigos" in input.lower():
+            self.modify(self.facts[12], interacciones_sociales="poco")
+            handled = True
+        if "desmotivado" in input.lower() or "sin motivación" in input.lower() or "perdí el interés" in input.lower() or "sin animo" in input.lower():
+            self.modify(self.facts[13], motivacion="baja")
+            handled = True
+        if "cansado" in input.lower() or "fatigado" in input.lower() or "sin energía" in input.lower():
+            self.modify(self.facts[14], fatiga="alta")
+            handled = True
