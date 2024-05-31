@@ -65,4 +65,30 @@ class PsychologicalSupport(KnowledgeEngine):
     def manage_depression(self):
         self.declare(Fact(response="La depresión es una condición seria. Busca ayuda profesional si sientes que no puedes manejarlo solo. Hablar con un terapeuta puede ser muy beneficioso."))
 
-    
+    @Rule(Fact(hábito_deporte="poco"))
+    def low_exercise(self):
+        self.declare(Fact(response="El ejercicio regular puede mejorar tu estado de ánimo y salud general. Intenta encontrar una actividad física que disfrutes y hazla parte de tu rutina."))
+
+    @Rule(Fact(actividades_ocio="poco"))
+    def low_leisure_activities(self):
+        self.declare(Fact(response="Tener tiempo para el ocio y los pasatiempos es importante para el bienestar mental. Intenta dedicar tiempo a actividades que disfrutes, como leer, pintar or escuchar música."))
+
+    @Rule(Fact(alimentacion="mala"))
+    def poor_diet(self):
+        self.declare(Fact(response="Una alimentación balanceada es crucial para tu salud mental y física. Intenta mejorar tus hábitos alimenticios incluyendo más frutas y verduras in tu dieta."))
+
+    @Rule(Fact(interacciones_sociales="poco"))
+    def low_social_interactions(self):
+        self.declare(Fact(response="Las interacciones sociales son importantes para tu bienestar emocional. Intenta pasar tiempo con amigos y familiares, or únete a grupos or clubes que te interesen."))
+
+    @Rule(Fact(motivacion="baja"))
+    def low_motivation(self):
+        self.declare(Fact(response="Sentirse desmotivado puede ser una señal de estrés or depresión. Intenta establecer pequeñas metas diarias y buscar apoyo si es necesario."))
+
+    @Rule(Fact(fatiga="alta"))
+    def high_fatigue(self):
+        self.declare(Fact(response="La fatiga puede ser un signo de problemas de salud física or mental. Asegúrate de descansar lo suficiente y consulta a un profesional si la fatiga persiste."))
+
+    @Rule(Fact(sentimientos_suicidas="si"))
+    def suicidal_thoughts(self):
+        self.declare(Fact(response="Los pensamientos suicidas son muy serios. Por favor, busca ayuda inmediata de un profesional de salud mental or llama a una línea de ayuda."))
