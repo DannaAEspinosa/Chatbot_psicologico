@@ -1,0 +1,13 @@
+# **Development of a Psychological Healthcare Chatbot Expert System**  🤖
+
+## **Team:** 👥
+* Diana Lorena Balanta Solano
+* Carlos Javier Bolaños Riascos.
+* Danna Alexandra Espinosa Arenas
+
+## **Introduction**
+
+In today's digital era, access to mental health services remains a significant challenge for many individuals. Factors such as social stigma, high costs, and limited availability of professional resources hinder many from obtaining the necessary help. In response to this issue, the development of expert systems based on chatbots offers an innovative and accessible solution. These chatbots can provide a confidential and easily accessible platform for receiving psychological support, guidance, and resources.
+
+This project focuses on developing a medium-complexity expert system chatbot for psychological healthcare using Python and the Experta and pgmpy libraries. The system is designed to offer personalized, evidence-based support to users experiencing psychological distress or seeking mental health guidance, utilizing Bayesian networks to model probabilistic relationships between symptoms, diagnoses, and treatment recommendations.
+
