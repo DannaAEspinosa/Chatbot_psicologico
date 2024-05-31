@@ -158,3 +158,8 @@ class PsychologicalSupport(KnowledgeEngine):
         if "cansado" in input.lower() or "fatigado" in input.lower() or "sin energía" in input.lower():
             self.modify(self.facts[14], fatiga="alta")
             handled = True
+        if "suicidio" in input.lower() or "quiero morir" in input.lower() or "quiero matarme" in input.lower() or "sin sentido vivir" in input.lower():
+            self.modify(self.facts[15], sentimientos_suicidas="si")
+            handled = True
+        if not handled:
+            self.declare(Fact(response="Lo siento, no tengo una respuesta específica para eso. ¿Podrías describir más tu situación?"))
