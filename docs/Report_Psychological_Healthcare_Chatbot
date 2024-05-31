@@ -72,3 +72,67 @@ We confirmed that all necessary resources are free and open-source, suitable for
 ### **Operational:**
 We verified the compatibility of these tools with the operating system of the personal computer to be used and ensured that sufficient time is available within the semester to complete the project, considering other academic responsibilities.
 
+
+## **Requirements Analysis**
+
+
+
+### **Functional Requirements:**
+
+* **Chatbot Interaction:**
+
+  * The chatbot must be able to interact conversationally with users.
+
+  * It should assess user input to identify specific psychological issues.
+
+  * The system should generate responses and recommendations based on the assessments made.
+
+* **Knowledge Base:**
+
+  * The system should have a knowledge base that includes psychological assessments, coping strategies, and intervention techniques.
+
+  * The knowledge base must be updatable and expandable.
+
+* **Bayesian Networks:**
+
+  * The system must use Bayesian networks to model probabilistic relationships between symptoms, diagnoses, and treatment recommendations.
+
+  * The Bayesian networks should be implemented using the pgmpy library.
+
+* **Data Storage:**
+
+  * A database should exist to store user profiles, conversation logs, and relevant psychological data.
+
+  * The database must ensure the security and confidentiality of user data.
+
+* **Explanation Facilities:**
+
+  * The system should provide clear explanations of the chatbot's reasoning and recommendations.
+
+  * Explanations should be accessible to users to increase trust and understanding.
+
+### **Non-Functional Requirements:**
+
+* **Usability:**
+
+  * The chatbot must be easy to use and accessible to users from diverse demographics.
+
+  * The interface should be intuitive and user-friendly.
+
+* **Performance:**
+
+  * The system must handle multiple user sessions simultaneously without performance degradation.
+
+  * It should be scalable to support an increasing number of users.
+
+* **Security and Privacy:**
+
+  * The system must comply with all applicable privacy regulations and ensure user data confidentiality.
+
+  * Robust security measures should be implemented to protect sensitive information.
+
+* **Maintainability:**
+
+  * The system should be easily maintainable and updatable.
+
+  * Documentation should be clear and comprehensive to facilitate future improvements and maintenance.
