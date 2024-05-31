@@ -1,0 +1,2 @@
+py -3.7 -m venv .venv
+pip install Flask experta pgmpy
