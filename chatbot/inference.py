@@ -131,3 +131,19 @@ class PsychologicalSupport(KnowledgeEngine):
         if "deprimido" in input.lower() or "tengo depresion" in input.lower() or "depresión" in input.lower() or "decaído" in input.lower():
             self.modify(self.facts[5], depresión="alta")
             handled = True
+        if "insomnio" in input.lower() or "no puedo dormir" in input.lower() or "dificultad para dormir" in input.lower():
+            self.modify(self.facts[6], insomnio="si")
+            handled = True
+        if "soporte familiar" in input.lower() or "apoyo familiar" in input.lower() or "familia" in input.lower():
+            self.modify(self.facts[7], soporte_familiar="insuficiente")
+            handled = True
+        if "salud física" in input.lower() or "estado físico" in input.lower() or "salud" in input.lower():
+            self.modify(self.facts[8], salud_física="mala")
+            handled = True
+        if "deporte" in input.lower() or "ejercicio" in input.lower() or "actividad física" in input.lower():
+            self.modify(self.facts[9], hábito_deporte="poco")
+            handled = True
+        if "ocio" in input.lower() or "pasatiempos" in input.lower() or "tiempo libre" in input.lower():
+            self.modify(self.facts[10], actividades_ocio="poco")
+            handled = True
+       
