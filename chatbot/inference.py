@@ -45,4 +45,24 @@ class PsychologicalSupport(KnowledgeEngine):
     def insomnia_and_depression(self):
         self.declare(Fact(response="El insomnio junto con la depresión requiere atención profesional inmediata. Busca ayuda lo antes posible."))
 
-   
+    @Rule(Fact(salud_física="mala"))
+    def poor_physical_health(self):
+        self.declare(Fact(response="Mantener una buena salud física es crucial. Intenta incorporar ejercicio y una dieta balanceada in tu rutina diaria."))
+
+    @Rule(Fact(estado_animo="feliz"))
+    def happy_mood(self):
+        self.declare(Fact(response="Es genial que te sientas feliz. Sigue manteniendo un estilo de vida saludable y equilibrado."))
+
+    @Rule(Fact(soporte_familiar="insuficiente"))
+    def low_support(self):
+        self.declare(Fact(response="El apoyo familiar es importante. Intenta comunicarte con tus seres queridos sobre cómo te sientes y busca actividades que puedan disfrutar juntos."))
+
+    @Rule(Fact(ansiedad="alta"), salience=1)
+    def manage_anxiety(self):
+        self.declare(Fact(response="La ansiedad puede ser difícil de manejar. Intenta técnicas de respiración y relajación, y considera hablar con un profesional si la ansiedad persiste."))
+
+    @Rule(Fact(depresión="alta"), salience=1)
+    def manage_depression(self):
+        self.declare(Fact(response="La depresión es una condición seria. Busca ayuda profesional si sientes que no puedes manejarlo solo. Hablar con un terapeuta puede ser muy beneficioso."))
+
+    
