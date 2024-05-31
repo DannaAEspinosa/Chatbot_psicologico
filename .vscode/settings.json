@@ -1,0 +1,9 @@
+{
+    "python.analysis.extraPaths": [
+        "./app/database"
+    ],
+    "cSpell.words": [
+        "PGSQL",
+        "SQLALCHEMY"
+    ]
+}
