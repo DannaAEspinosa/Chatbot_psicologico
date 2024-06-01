@@ -1,2 +1,4 @@
 py -3.7 -m venv .venv
 pip install Flask experta pgmpy
+pip install flask-cors psycopg2 python-decouple python-dotenv
+pip install flask_sqlalchemy

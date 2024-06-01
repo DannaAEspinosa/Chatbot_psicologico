@@ -1,9 +1,71 @@
-from flask import Flask
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_sqlalchemy import SQLAlchemy
+from dotenv import load_dotenv
+from models.users import User, db  
 
-app=Flask(__name__)
+load_dotenv('.env')
+
+app = Flask(__name__)
+
+# Configuración de la base de datos
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:admin@localhost/psychological_healthcare'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Configuración de la clave secreta
+app.config['SECRET_KEY'] = 'P4SSWORD_TORTICODE'  # Clave secreta para las sesiones
+
+db.init_app(app)  # Inicializa la instancia de SQLAlchemy con la aplicación Flask
 
 @app.route('/')
 def index():
-    return 'Hello World!'
-if __name__=='__main__':
+    return render_template('index.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        citizenship_card = request.form['citizenshipCard']
+        password = request.form['password']
+        
+        try:
+            user = User.query.filter_by(citizenshipCard=citizenship_card).first()  # Usa citizenshipCard
+            
+            if user and user.password == password:
+                session['citizenshipCard'] = citizenship_card
+                flash('Login successful!', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Invalid citizenship card or password', 'danger')
+                return redirect(url_for('login'))
+        except Exception as e:
+            flash(str(e), 'danger')
+            return redirect(url_for('login'))
+    
+    return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+    if 'citizenshipCard' in session:
+        return f"Hello, {session['citizenshipCard']}! Welcome to your dashboard."
+    else:
+        flash('You are not logged in!', 'warning')
+        return redirect(url_for('login'))
+
+@app.route('/logout')
+def logout():
+    session.pop('citizenshipCard', None)
+    flash('You have been logged out!', 'info')
+    return redirect(url_for('login'))
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
+# Endpoint para crear tablas - eliminar después de crear la tabla
+@app.route('/create_tables')
+def create_tables():
+    with app.app_context():
+        db.create_all()
+    return "Tables created", 200
+
+if __name__ == '__main__':
     app.run(debug=True)
