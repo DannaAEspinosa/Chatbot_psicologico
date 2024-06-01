@@ -1,11 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from models.users import User, db  
+from chatbot.inference import PsychologicalSupport
+from experta import Fact
 
 load_dotenv('.env')
 
 app = Flask(__name__)
+
+chatbot = PsychologicalSupport()
 
 # Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:admin@localhost/psychological_healthcare'
@@ -19,6 +23,17 @@ db.init_app(app)  # Inicializa la instancia de SQLAlchemy con la aplicación Fla
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/get_response', methods=['POST'])
+def get_response():
+    user_input = request.form['user_input']
+    chatbot.reset()
+    chatbot.declare(Fact(input=user_input))
+    chatbot.run()
+
+    responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
+    return jsonify({'responses': responses})
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -42,13 +57,16 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/dashboard')
+
+@app.route('/chatbot')
 def dashboard():
     if 'citizenshipCard' in session:
-        return f"Hello, {session['citizenshipCard']}! Welcome to your dashboard."
+        return render_template('chatbot.html')
     else:
         flash('You are not logged in!', 'warning')
         return redirect(url_for('login'))
+
+@app.route('/chatbot', methods=['POST'])
 
 @app.route('/logout')
 def logout():
