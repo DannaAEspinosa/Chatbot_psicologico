@@ -27,12 +27,31 @@ def index():
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_input = request.form['user_input']
+    user_choice = request.form['user_choice']
     chatbot.reset()
     chatbot.declare(Fact(input=user_input))
     chatbot.run()
 
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
-    return jsonify({'responses': responses})
+
+    show_options = False
+    show_initial_options = False
+    if user_choice == "feelings":
+        if "Lo siento, no tengo una respuesta específica para eso. ¿Podrías describir más tu situación?" in responses:
+            show_options = False
+        else:
+            show_options = True
+    elif user_choice == "options":
+        if user_input == "1":
+            responses.append("Perfecto, cuéntame cómo te sientes.")
+        elif user_input == "2":
+            show_initial_options = True
+        elif user_input == "3":
+            responses.append("Gracias por hablar conmigo. ¡Cuídate mucho!")
+        else:
+            responses.append("Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat")
+
+    return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
 
 @app.route('/start_assessment', methods=['POST'])
 def start_assessment():
