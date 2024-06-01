@@ -5,13 +5,11 @@ from models.users import User, db
 from chatbot.inference import PsychologicalSupport
 from experta import Fact
 from flask_migrate import Migrate
+from models.conversation import Conversation
 
 load_dotenv('.env')
 
 app = Flask(__name__)
-
-chatbot = PsychologicalSupport()
-
 # Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:admin@localhost/psychological_healthcare'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -20,7 +18,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'P4SSWORD_TORTICODE'  # Clave secreta para las sesiones
 
 db.init_app(app)  # Inicializa la instancia de SQLAlchemy con la aplicación Flask
-migrate = Migrate(app, db)  # Inicializa la instancia de Migrate con la aplicación Flask y la base de datos
+migrate = Migrate(app, db)
+chatbot = PsychologicalSupport()
 
 @app.route('/')
 def index():
@@ -45,6 +44,20 @@ def get_response():
             db.session.commit()
 
     return jsonify({'responses': responses})
+
+@app.route('/save_conversation', methods=['POST'])
+def save_conversation():
+    user_input = request.form['user_input']
+    response_text = request.form['response_text']
+
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+    return jsonify({'status': 'failed'})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():

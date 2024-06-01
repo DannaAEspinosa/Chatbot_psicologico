@@ -1,3 +1,7 @@
+from flask_sqlalchemy import SQLAlchemy
+from .users import User
+db = SQLAlchemy()
+
 class Conversation(db.Model):
     __tablename__ = 'conversations'
     id = db.Column(db.Integer, primary_key=True)
@@ -6,6 +10,6 @@ class Conversation(db.Model):
     response = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
 
-    user = db.relationship('User', back_populates='conversations')
 
+    user = db.relationship('User', back_populates='conversations')
 User.conversations = db.relationship('Conversation', order_by=Conversation.timestamp, back_populates='user')
