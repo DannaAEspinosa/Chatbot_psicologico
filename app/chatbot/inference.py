@@ -1,5 +1,5 @@
 from experta import *
-from models.bayesian_network import create_bayesian_network
+from ..models.bayesian_network import create_bayesian_network
 
 inference = create_bayesian_network()
 
