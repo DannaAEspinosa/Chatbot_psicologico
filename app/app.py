@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from models.users import User, db  
-from chatbot.inference import PsychologicalSupport
+from .models.users import User, db  
+from .chatbot.inference import PsychologicalSupport
 from experta import Fact
+from flask_migrate import Migrate
 
 load_dotenv('.env')
 
 app = Flask(__name__)
-
-chatbot = PsychologicalSupport()
-
 # Configuración de la base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:admin@localhost/psychological_healthcare'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -19,6 +17,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'P4SSWORD_TORTICODE'  # Clave secreta para las sesiones
 
 db.init_app(app)  # Inicializa la instancia de SQLAlchemy con la aplicación Flask
+migrate = Migrate(app, db)
+chatbot = PsychologicalSupport()
 
 @app.route('/')
 def index():
