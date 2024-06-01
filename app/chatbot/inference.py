@@ -113,6 +113,50 @@ class PsychologicalSupport(KnowledgeEngine):
     def low_depression_and_happiness(self):
         self.declare(Fact(response="Es maravilloso saber que tienes un bajo nivel de depresión y te sientes feliz. Mantén tus hábitos saludables y sigue cuidando de tu bienestar emocional. Comparte tu felicidad con los demás y fortalece tus relaciones sociales. ¡Sigue así!"))
 
+    @Rule(Fact(estrés="alto"), Fact(ansiedad="alta"))
+    def high_stress_and_anxiety(self):
+        self.declare(Fact(response="El estrés y la ansiedad altos pueden ser una combinación difícil de manejar. Es importante que te tomes un tiempo para relajarte y practiques técnicas de manejo del estrés. Aquí tienes un [video sobre técnicas de relajación](https://www.youtube.com/watch?v=aNXKjGFUlMs). Si sientes que necesitas más apoyo, no dudes en hablar con un profesional. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(estado_animo="triste"), Fact(depresión="alta"))
+    def sadness_and_high_depression(self):
+        self.declare(Fact(response="La tristeza y la alta depresión son señales de que necesitas apoyo inmediato. Es esencial que busques ayuda profesional para manejar estos sentimientos.[Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(insomnio="si"), Fact(fatiga="alta"))
+    def insomnia_and_high_fatigue(self):
+        self.declare(Fact(response="El insomnio y la alta fatiga pueden afectar gravemente tu bienestar. Establecer una rutina de sueño y practicar técnicas de relajación puede ayudarte a mejorar la calidad del sueño. Aquí tienes un [video sobre cómo mejorar el sueño](https://www.youtube.com/watch?v=ks03wMzEQC0). Si los problemas persisten, busca ayuda profesional. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(soporte_familiar="insuficiente"), Fact(soledad="si"))
+    def low_support_and_loneliness(self):
+        self.declare(Fact(response="La falta de apoyo familiar y la soledad pueden ser muy difíciles de manejar. Es importante comunicarte con tus seres queridos y buscar actividades sociales. Aquí tienes un [Guía sobre cómo comunicarse mejor con tu familia(https://psicologiaymente.com/social/como-comunicarnos-mejor-con-familia). Si necesitas más apoyo, considera hablar con un terapeuta. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(alimentacion="mala"), Fact(salud_física="mala"))
+    def poor_diet_and_physical_health(self):
+        self.declare(Fact(response="Una mala alimentación y una salud física deficiente pueden afectar tu bienestar general. Intenta mejorar tus hábitos alimenticios y hacer ejercicio regularmente. Aquí tienes un [Guía para mantener habitos saludables](https://vidasaludable.udec.cl/node/239). Si necesitas más orientación, consulta a un profesional de la salud."))
+
+    @Rule(Fact(actividades_ocio="poco"), Fact(motivacion="baja"))
+    def low_leisure_and_motivation(self):
+        self.declare(Fact(response="La falta de actividades de ocio y baja motivación pueden afectar tu bienestar emocional. Intenta dedicar tiempo a pasatiempos que disfrutes y establece pequeñas metas diarias para mantenerte motivado/a. Aquí tienes un [video sobre cómo aumentar la motivación](https://www.youtube.com/watch?v=mb6UAPGTvIU)."))
+
+    @Rule(Fact(estrés="alto"), Fact(fatiga="alta"))
+    def high_stress_and_fatigue(self):
+        self.declare(Fact(response="El alto estrés y la fatiga pueden ser una combinación agotadora. Es importante que te tomes un tiempo para descansar y practiques técnicas de manejo del estrés. Aquí tienes un [video sobre cómo combatir la fatiga](https://www.youtube.com/watch?v=YNwrqOdlrxE). Si sientes que necesitas más apoyo, habla con un profesional. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(ansiedad="alta"), Fact(preocupacion_academica="alta"))
+    def high_anxiety_and_academic_stress(self):
+        self.declare(Fact(response="La alta ansiedad y el estrés académico pueden ser difíciles de manejar juntos. Intenta organizar tu tiempo de manera efectiva y practica técnicas de relajación. Aquí tienes un [video sobre Cómo manejar la ansiedad en la universidad](https://www.youtube.com/watch?v=Ctd3gH4O4Bc). Si necesitas más ayuda, busca apoyo en tutores o compañeros de clase y considera hablar con un profesional. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(depresión="alta"), Fact(fatiga="alta"))
+    def high_depression_and_fatigue(self):
+        self.declare(Fact(response="La alta depresión y la fatiga pueden ser una combinación peligrosa. Es esencial que busques ayuda profesional para manejar estos síntomas. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(sentimientos_suicidas="si"), Fact(depresión="alta"))
+    def suicidal_thoughts_and_depression(self):
+        self.declare(Fact(response="Por favor, busca ayuda inmediata de un profesional de salud mental o llama a la línea de ayuda '123'. La combinación de pensamientos suicidas y alta depresión requiere atención urgente. Tu vida es valiosa y hay personas dispuestas a ayudarte. No enfrentes esto solo/a. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(soporte_familiar="suficiente"), Fact(interacciones_sociales="frecuente"))
+    def good_support_and_social_interactions(self):
+        self.declare(Fact(response="Es excelente saber que tienes suficiente apoyo familiar y frecuentes interacciones sociales. Mantén estos hábitos, ya que son muy beneficiosos para tu bienestar emocional. Sigue disfrutando de tu tiempo con seres queridos y fortaleciendo tus relaciones. ¡Sigue así!"))
+
     @Rule(Fact(input=MATCH.input))
     def process_user_input(self, input):
         handled = False
