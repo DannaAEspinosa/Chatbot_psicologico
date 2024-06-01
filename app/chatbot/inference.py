@@ -116,49 +116,49 @@ class PsychologicalSupport(KnowledgeEngine):
     @Rule(Fact(input=MATCH.input))
     def process_user_input(self, input):
         handled = False
-        if "estresado" in input.lower() or "tengo estres" in input.lower() or "estresada" in input.lower() or "mucho estrés" in input.lower():
+        if any(word in input.lower() for word in ["estresado", "tengo estrés", "estresada", "mucho estrés", "estres", "estresante", "estresarme", "me siento estresado", "me siento estresada"]):
             self.modify(self.facts[3], estrés="alto")
             handled = True
-        if "triste" in input.lower() or "me siento mal" in input.lower() or "deprimida" in input.lower() or "decaído" in input.lower():
+        if any(word in input.lower() for word in ["triste", "me siento mal", "deprimida", "decaído", "decaída", "depresivo", "desanimado", "desanimada", "melancólico", "melancólica", "abatido", "abatida"]):
             self.modify(self.facts[2], estado_animo="triste")
             handled = True
-        if "feliz" in input.lower() or "contento" in input.lower() or "alegre" in input.lower():
+        if any(word in input.lower() for word in ["feliz", "contento", "contenta", "alegre", "animado", "animada", "eufórico", "eufórica", "satisfecho", "satisfecha"]):
             self.modify(self.facts[2], estado_animo="feliz")
             handled = True
-        if "ansioso" in input.lower() or "tengo ansiedad" in input.lower() or "nervioso" in input.lower() or "nerviosa" in input.lower():
+        if any(word in input.lower() for word in ["ansioso", "tengo ansiedad", "nervioso", "nerviosa", "ansiedad", "inquieto", "inquieta", "preocupado", "preocupada", "angustiado", "angustiada"]):
             self.modify(self.facts[4], ansiedad="alta")
             handled = True
-        if "deprimido" in input.lower() or "tengo depresion" in input.lower() or "depresión" in input.lower() or "decaído" in input.lower():
+        if any(word in input.lower() for word in ["deprimido", "tengo depresión", "depresión", "decaído", "desmotivado", "sin ánimos", "abatido", "desesperanzado", "sin esperanza", "abatida", "desesperanzada"]):
             self.modify(self.facts[5], depresión="alta")
             handled = True
-        if "insomnio" in input.lower() or "no puedo dormir" in input.lower() or "dificultad para dormir" in input.lower():
+        if any(word in input.lower() for word in ["insomnio", "no puedo dormir", "dificultad para dormir", "sueño interrumpido", "me cuesta dormir", "problemas de sueño", "no duermo bien"]):
             self.modify(self.facts[6], insomnio="si")
             handled = True
-        if "soporte familiar" in input.lower() or "apoyo familiar" in input.lower() or "familia" in input.lower():
+        if any(word in input.lower() for word in ["soporte familiar", "apoyo familiar", "familia", "relaciones familiares", "apoyo de mi familia", "mi familia no me apoya", "problemas familiares"]):
             self.modify(self.facts[7], soporte_familiar="insuficiente")
             handled = True
-        if "salud física" in input.lower() or "estado físico" in input.lower() or "salud" in input.lower():
+        if any(word in input.lower() for word in ["salud física", "estado físico", "salud", "me siento enfermo", "me siento débil", "enfermedad", "problemas de salud", "me siento mal físicamente"]):
             self.modify(self.facts[8], salud_física="mala")
             handled = True
-        if "deporte" in input.lower() or "ejercicio" in input.lower() or "actividad física" in input.lower():
+        if any(word in input.lower() for word in ["deporte", "ejercicio", "actividad física", "hacer ejercicio", "entrenar", "no hago ejercicio", "poco ejercicio", "no me muevo mucho", "sedentario", "sedentaria"]):
             self.modify(self.facts[9], hábito_deporte="poco")
             handled = True
-        if "ocio" in input.lower() or "pasatiempos" in input.lower() or "tiempo libre" in input.lower():
+        if any(word in input.lower() for word in ["ocio", "pasatiempos", "tiempo libre", "hobbies", "actividades recreativas", "no tengo tiempo libre", "no hago nada divertido"]):
             self.modify(self.facts[10], actividades_ocio="poco")
             handled = True
-        if "alimentacion" in input.lower() or "dieta" in input.lower() or "comida" in input.lower():
+        if any(word in input.lower() for word in ["alimentación", "dieta", "comida", "hábitos alimenticios", "nutrición", "mala alimentación", "como mal", "no como bien", "dieta poco saludable"]):
             self.modify(self.facts[11], alimentacion="mala")
             handled = True
-        if "interacciones sociales" in input.lower() or "vida social" in input.lower() or "amigos" in input.lower():
+        if any(word in input.lower() for word in ["interacciones sociales", "vida social", "amigos", "socializar", "relaciones sociales", "no tengo amigos", "me siento solo", "me siento sola", "no socializo"]):
             self.modify(self.facts[12], interacciones_sociales="poco")
             handled = True
-        if "desmotivado" in input.lower() or "sin motivación" in input.lower() or "perdí el interés" in input.lower() or "sin animo" in input.lower():
+        if any(word in input.lower() for word in ["desmotivado", "sin motivación", "perdí el interés", "sin ánimo", "falta de interés", "no tengo ganas de hacer nada", "no me siento motivado", "no me siento motivada"]):
             self.modify(self.facts[13], motivacion="baja")
             handled = True
-        if "cansado" in input.lower() or "fatigado" in input.lower() or "sin energía" in input.lower():
+        if any(word in input.lower() for word in ["cansado", "fatigado", "sin energía", "agotado", "cansancio extremo", "me siento exhausto", "me siento exhausta", "no tengo energía", "me siento fatigado", "me siento fatigada"]):
             self.modify(self.facts[14], fatiga="alta")
             handled = True
-        if "suicidio" in input.lower() or "quiero morir" in input.lower() or "quiero matarme" in input.lower() or "sin sentido vivir" in input.lower():
+        if any(word in input.lower() for word in ["suicidio", "quiero morir", "quiero matarme", "sin sentido vivir", "terminar mi vida", "no quiero vivir", "me quiero suicidar", "pensamientos suicidas"]):
             self.modify(self.facts[15], sentimientos_suicidas="si")
             handled = True
         if not handled:
