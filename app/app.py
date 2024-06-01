@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from .models.users import User, db  
@@ -34,6 +34,17 @@ def get_response():
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
     return jsonify({'responses': responses})
 
+@app.route('/start_assessment', methods=['POST'])
+def start_assessment():
+    questions = [
+        "¿Cómo describirías tu estado de ánimo en las últimas semanas?",
+        "¿Has tenido dificultades para dormir?",
+        "¿Te has sentido muy ansioso o preocupado recientemente?",
+        "¿Has perdido interés en actividades que solías disfrutar?",
+        "¿Te sientes agotado sin motivo aparente?",
+        "¿Has tenido pensamientos suicidas o de autolesión?"
+    ]
+    return jsonify({'questions': questions})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -56,7 +67,6 @@ def login():
             return redirect(url_for('login'))
     
     return render_template('login.html')
-
 
 @app.route('/chatbot')
 def dashboard():
