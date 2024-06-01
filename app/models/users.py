@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String, primary_key=True)
     citizenshipCard = db.Column(db.Numeric(15), unique=True, nullable=False)
     name = db.Column(db.String(100), nullable=False)
     lastName = db.Column(db.String(100), nullable=False)

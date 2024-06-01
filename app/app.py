@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from models.users import User, db  
-from chatbot.inference import PsychologicalSupport
+from .models.users import User, db  
+from .chatbot.inference import PsychologicalSupport
 from experta import Fact
 from flask_migrate import Migrate
-from models.conversation import Conversation
+from .models.conversation import Conversation
 
 load_dotenv('.env')
 
