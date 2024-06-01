@@ -1,1 +1,83 @@
-<h1>Hola mundo</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot de Apoyo Psicológico</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="chat-container">
+        <div id="chatbox" class="chatbox">
+            <div class="bot-message">Bienvenido al chatbot de apoyo psicológico de la Universidad ICESI.Cuéntame, ¿Qué te gustaría hacer? :)</div>
+            <div class="bot-message">1) Hablar sobre cómo me siento</div>
+            <div class="bot-message">2) Evaluar mi salud mental</div>
+        </div>
+        <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
+        <button onclick="sendMessage()">Enviar</button>
+    </div>
+
+    <script>
+        let firstInteraction = true;
+
+        function sendMessage() {
+            const userInput = document.getElementById('user-input').value;
+            const chatbox = document.getElementById('chatbox');
+
+            chatbox.innerHTML += `<div class="user-message">${userInput}</div>`;
+            document.getElementById('user-input').value = '';
+
+            if (firstInteraction) {
+                handleInitialChoice(userInput);
+            } else {
+                fetch('/get_response', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `user_input=${userInput}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    data.responses.forEach(response => {
+                        chatbox.innerHTML += `<div class="bot-message">${response}</div>`;
+                    });
+                    chatbox.scrollTop = chatbox.scrollHeight;
+                });
+            }
+        }
+
+        function handleInitialChoice(choice) {
+            const chatbox = document.getElementById('chatbox');
+            if (choice === "1") {
+                chatbox.innerHTML += `<div class="bot-message">Perfecto, cuéntame cómo te sientes.</div>`;
+                firstInteraction = false;
+            } else if (choice === "2") {
+                chatbox.innerHTML += `<div class="bot-message">Vamos a evaluar tu salud mental. Por favor, responde las siguientes preguntas.</div>`;
+                firstInteraction = false;
+                startMentalHealthAssessment();
+            } else {
+                chatbox.innerHTML += `<div class="bot-message">Por favor, elige una opción válida: 1) Contar cómo te sientes 2) Evaluar tu salud mental.</div>`;
+            }
+            chatbox.scrollTop = chatbox.scrollHeight;
+        }
+
+        function startMentalHealthAssessment() {
+            fetch('/start_assessment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const chatbox = document.getElementById('chatbox');
+                data.questions.forEach(question => {
+                    chatbox.innerHTML += `<div class="bot-message">${question}</div>`;
+                });
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+        }
+    </script>
+</body>
+</html>

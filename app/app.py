@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session,jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from .models.users import User, db  
@@ -27,13 +27,43 @@ def index():
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_input = request.form['user_input']
+    user_choice = request.form['user_choice']
     chatbot.reset()
     chatbot.declare(Fact(input=user_input))
     chatbot.run()
 
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
-    return jsonify({'responses': responses})
 
+    show_options = False
+    show_initial_options = False
+    if user_choice == "feelings":
+        if "Lo siento, no tengo una respuesta específica para eso. ¿Podrías describir más tu situación?" in responses:
+            show_options = False
+        else:
+            show_options = True
+    elif user_choice == "options":
+        if user_input == "1":
+            responses.append("Perfecto, cuéntame cómo te sientes.")
+        elif user_input == "2":
+            show_initial_options = True
+        elif user_input == "3":
+            responses.append("Gracias por hablar conmigo. ¡Cuídate mucho!")
+        else:
+            responses.append("Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat")
+
+    return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
+
+@app.route('/start_assessment', methods=['POST'])
+def start_assessment():
+    questions = [
+        "¿Cómo describirías tu estado de ánimo en las últimas semanas?",
+        "¿Has tenido dificultades para dormir?",
+        "¿Te has sentido muy ansioso o preocupado recientemente?",
+        "¿Has perdido interés en actividades que solías disfrutar?",
+        "¿Te sientes agotado sin motivo aparente?",
+        "¿Has tenido pensamientos suicidas o de autolesión?"
+    ]
+    return jsonify({'questions': questions})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -56,7 +86,6 @@ def login():
             return redirect(url_for('login'))
     
     return render_template('login.html')
-
 
 @app.route('/chatbot')
 def dashboard():
