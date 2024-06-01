@@ -15,6 +15,7 @@
         </div>
         <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
         <button onclick="sendMessage()">Enviar</button>
+        <button onclick="saveConversation()">Guardar Conversación</button>
     </div>
 
     <script>
@@ -118,6 +119,27 @@
                     chatbox.innerHTML += `<div class="bot-message">${question}</div>`;
                 });
                 chatbox.scrollTop = chatbox.scrollHeight;
+
+                // Guardar la conversación al obtener la respuesta
+                saveConversation(userInput, data.responses.join(' '));
+            });
+        }
+
+        function saveConversation(userInput, responseText) {
+            fetch('/save_conversation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `user_input=${encodeURIComponent(userInput)}&response_text=${encodeURIComponent(responseText)}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log('Conversación guardada exitosamente.');
+                } else {
+                    console.log('Error al guardar la conversación.');
+                }
             });
         }
     </script>

@@ -5,6 +5,7 @@ from .models.users import User, db
 from .chatbot.inference import PsychologicalSupport
 from experta import Fact
 from flask_migrate import Migrate
+from .models.conversation import Conversation
 
 load_dotenv('.env')
 
@@ -23,6 +24,7 @@ chatbot = PsychologicalSupport()
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/get_response', methods=['POST'])
 def get_response():
