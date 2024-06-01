@@ -1,20 +1,32 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-image:  url('/static/background.png');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0;
 }
 
 .login-container {
-    background-color: #fff;
-    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco con opacidad */
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    text-align: center;
+}
+
+.login-container img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
 }
 
 .login-container h2 {
+    color: #1c3d72;
     margin-bottom: 20px;
 }
 
@@ -24,27 +36,28 @@ body {
 
 .form-group label {
     display: block;
+    color: #333333;
     margin-bottom: 5px;
 }
 
 .form-group input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
 }
 
 button {
-    width: 100%;
-    padding: 10px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #1c3d72;
+    color: #ffffff;
+    padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #08429f;
 }
 
 .flash {
@@ -61,14 +74,4 @@ button:hover {
 .flash.danger {
     background-color: #f8d7da;
     color: #721c24;
-}
-
-.flash.warning {
-    background-color: #fff3cd;
-    color: #856404;
-}
-
-.flash.info {
-    background-color: #d1ecf1;
-    color: #0c5460;
 }
