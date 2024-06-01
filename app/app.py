@@ -32,30 +32,16 @@ def get_response():
     chatbot.run()
 
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
+    response_text = ' '.join(responses)
+
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+
     return jsonify({'responses': responses})
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        citizenship_card = request.form['citizenshipCard']
-        password = request.form['password']
-        
-        try:
-            user = User.query.filter_by(citizenshipCard=citizenship_card).first()  # Usa citizenshipCard
-            
-            if user and user.password == password:
-                session['citizenshipCard'] = citizenship_card
-                flash('Login successful!', 'success')
-                return redirect(url_for('dashboard'))
-            else:
-                flash('Invalid citizenship card or password', 'danger')
-                return redirect(url_for('login'))
-        except Exception as e:
-            flash(str(e), 'danger')
-            return redirect(url_for('login'))
-    
-    return render_template('login.html')
 
 
 @app.route('/chatbot')
