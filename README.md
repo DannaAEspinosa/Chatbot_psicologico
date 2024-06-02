@@ -14,7 +14,7 @@ This project aims to develop a medium-complexity expert system using Python and 
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python (3.9)
 - PostgreSQL
 - Flask
 - Flask-SQLAlchemy
@@ -54,13 +54,20 @@ This project aims to develop a medium-complexity expert system using Python and 
 5. **Set up the PostgreSQL database**:
     - Create a PostgreSQL database named `psychological_healthcare`.
     - Update the `.env` file with your database credentials.
-
-6. **Run the database migrations**:
+    - Add migrations
+    - Update migrations
+      
+6. **Config routes**:
     ```bash
-    flask db upgrade
+    set FLASK_APP=app/app.py
+    ```
+    
+7. **Open app directory**:
+    ```bash
+    cd app
     ```
 
-7. **Run the application**:
+8. **In app directory: Run the application**:
     ```bash
     flask run
     ```
