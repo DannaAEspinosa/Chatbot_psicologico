@@ -22,21 +22,17 @@
         let otherOptions = false;
         let userChoice = "";
         let questions = [
-            "¿Te sientes motivado últimamente?",
-            "¿Cómo describirías tu alimentación?",
-            "¿Recibes suficiente apoyo familiar?",
-            "¿Tienes preocupaciones académicas?",
-            "¿Has tenido sentimientos suicidas?",
-            "¿Te sientes triste con frecuencia?",
-            "¿Te sientes cansado la mayor parte del tiempo?",
-            "¿Tienes un hábito regular de hacer deporte?",
-            "¿Participas en actividades de ocio?",
-            "¿Tienes interacciones sociales frecuentes?",
-            "¿Te sientes estresado con frecuencia?",
-            "¿Te sientes solo?",
-            "¿Tienes problemas de ansiedad?",
-            "¿Tienes problemas de insomnio?",
-            "¿Te sientes deprimido?"
+            { text: "¿Te sientes motivado últimamente?", options: ["Sí", "No"] },
+            { text: "¿Cómo describirías tu alimentación?", options: ["Buena", "Mala"] },
+            { text: "¿Recibes suficiente apoyo familiar?", options: ["Suficiente", "Insuficiente"] },
+            { text: "¿Tienes preocupaciones académicas?", options: ["Sí", "No"] },
+            { text: "¿Has tenido sentimientos suicidas?", options: ["Sí", "No"] },
+            { text: "¿Te sientes triste con frecuencia?", options: ["Sí", "No"] },
+            { text: "¿Te sientes cansado la mayor parte del tiempo?", options: ["Sí", "No"] },
+            { text: "¿Tienes un hábito regular de hacer deporte?", options: ["Sí", "No"] },
+            { text: "¿Participas en actividades de ocio?", options: ["Sí", "No"] },
+            { text: "¿Tienes interacciones sociales frecuentes?", options: ["Sí", "No"] },
+            { text: "¿Te sientes estresado con frecuencia?", options: ["Sí", "No"] },
         ];
         let currentQuestion = 0;
         let userResponses = {};
@@ -53,7 +49,7 @@
             } else if (otherOptions) {
                 otherChoice(userInput);
             } else if (userChoice === "assessment") {
-                handleAssessment(userInput);
+                askNextQuestion(); // Iniciar la evaluación médica
             } else {
                 fetch('/get_response', {
                     method: 'POST',
@@ -92,6 +88,9 @@
                 chatbox.innerHTML += `<div class="bot-message">Vamos a evaluar tu salud mental. Por favor, responde las siguientes preguntas.</div>`;
                 userChoice = "assessment";
                 firstInteraction = false;
+                userChoice = "assessment";
+                currentQuestion = 0;
+                userResponses = {};
                 askNextQuestion();
             } else {
                 chatbox.innerHTML += `<div class="bot-message">Por favor, elige una opción válida: 1) Contar cómo te sientes 2) Evaluar tu salud mental.</div>`;
@@ -102,8 +101,9 @@
         function askNextQuestion() {
             const chatbox = document.getElementById('chatbox');
             if (currentQuestion < questions.length) {
-                chatbox.innerHTML += `<div class="bot-message">${questions[currentQuestion]}</div>`;
-                currentQuestion++;
+                let question = questions[currentQuestion];
+                let optionsHtml = question.options.map(option => `<button onclick="selectOption('${option}')">${option}</button>`).join(' ');
+                chatbox.innerHTML += `<div class="bot-message">${question.text}</div><div class="bot-message">${optionsHtml}</div>`;
                 chatbox.scrollTop = chatbox.scrollHeight;
             } else {
                 fetch('/process_assessment', {
@@ -123,8 +123,10 @@
             }
         }
 
-        function handleAssessment(userInput) {
-            userResponses[questions[currentQuestion - 1]] = userInput;
+        function selectOption(option) {
+            let question = questions[currentQuestion];
+            userResponses[question.text] = option;
+            currentQuestion++;
             askNextQuestion();
         }
 

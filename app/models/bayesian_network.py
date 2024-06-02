@@ -90,6 +90,3 @@ def create_bayesian_network():
     inference = VariableElimination(model)
 
     return inference
-
-# Crear el modelo y realizar inferencia
-inference = create_bayesian_network()
