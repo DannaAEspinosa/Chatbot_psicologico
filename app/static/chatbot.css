@@ -1,6 +1,7 @@
+/* static/style.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background-image: url('/static/background_chatbot.png');
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,9 +14,9 @@ body {
     max-width: 600px;
     min-width: 300px;
     background-color: white;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 
@@ -23,16 +24,16 @@ body {
     height: 400px;
     overflow-y: auto;
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     border-radius: 5px;
-    background-color: #fafafa;
+    background-color: #ffffff;
     margin-bottom: 10px;
 }
 
 .user-input {
     width: calc(100% - 70px);
     padding: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #000;
     border-radius: 5px;
     margin-right: 10px;
 }
@@ -59,9 +60,22 @@ button:hover {
 .user-message {
     background-color: #d1ecf1;
     align-self: flex-end;
+    border: 1px solid #000;
 }
 
 .bot-message {
     background-color: #c3e6cb;
     align-self: flex-start;
+    border: 1px solid #000;
+}
+
+.profile-pic {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.input-container {
+    display: flex;
 }

@@ -26,6 +26,32 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        citizenship_card = request.form['citizenshipCard']
+        name = request.form['name']
+        last_name = request.form['lastName']
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Verifica si el usuario ya existe
+        existing_user = User.query.filter_by(citizenshipCard=citizenship_card).first()
+        if existing_user:
+            flash('User with this citizenship card already exists', 'danger')
+            return redirect(url_for('register'))
+        
+        # Crea un nuevo usuario
+        new_user = User(citizenshipCard=citizenship_card, name=name, lastName=last_name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        
+        flash('Registration successful! Please log in.', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
+
+
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_input = request.form['user_input']
@@ -75,6 +101,7 @@ def save_conversation():
             db.session.commit()
             return jsonify({'status': 'success'})
     return jsonify({'status': 'failed'})
+
 @app.route('/start_assessment', methods=['POST'])
 def start_assessment():
     questions = [
@@ -129,12 +156,6 @@ def logout():
 def page_not_found(error):
     return render_template('404.html'), 404
 
-# Endpoint para crear tablas - eliminar después de crear la tabla
-@app.route('/create_tables')
-def create_tables():
-    with app.app_context():
-        db.create_all()
-    return "Tables created", 200
 
 if __name__ == '__main__':
     app.run(debug=True)
