@@ -9,21 +9,21 @@ class PsychologicalSupport(KnowledgeEngine):
     def initial_facts(self):
         yield Fact("Bienvenido al sistema experto de apoyo psicológico.")
         yield Fact(estado_animo="neutral")
-        yield Fact(estrés="bajo")
-        yield Fact(ansiedad="bajo")
-        yield Fact(depresión="bajo")
-        yield Fact(insomnio="no")
-        yield Fact(soporte_familiar="suficiente")
-        yield Fact(salud_física="buena")
-        yield Fact(hábito_deporte="regular")
-        yield Fact(actividades_ocio="si")
-        yield Fact(alimentacion="buena")
-        yield Fact(interacciones_sociales="si")
-        yield Fact(motivacion="alta")
-        yield Fact(fatiga="baja")
-        yield Fact(sentimientos_suicidas="no")
-        yield Fact(preocupacion_academica="baja")
-        yield Fact(soledad="no")
+        yield Fact(estrés="neutral")
+        yield Fact(ansiedad="neutral")
+        yield Fact(depresión="neutral")
+        yield Fact(insomnio="neutral")
+        yield Fact(soporte_familiar="neutral")
+        yield Fact(salud_física="neutral")
+        yield Fact(hábito_deporte="neutral")
+        yield Fact(actividades_ocio="neutral")
+        yield Fact(alimentacion="neutral")
+        yield Fact(interacciones_sociales="neutral")
+        yield Fact(motivacion="neutral")
+        yield Fact(fatiga="neutral")
+        yield Fact(sentimientos_suicidas="neutral")
+        yield Fact(preocupacion_academica="neutral")
+        yield Fact(soledad="neutral")
 
     @Rule(Fact(estrés="alto"))
     def high_stress(self):
@@ -197,6 +197,38 @@ class PsychologicalSupport(KnowledgeEngine):
     def high_burnout_risk(self):
         self.declare(Fact(response="Noto que tienes un alto nivel de estrés, ansiedad y problemas para dormir, lo cual puede indicar un riesgo de burnout. Te recomiendo tomar medidas para reducir el estrés y mejorar tu calidad de sueño. Aquí tienes un [video sobre cómo manejar el burnout](https://www.youtube.com/watch?v=bzjWzzrbQWk)."))
 
+    @Rule(Fact(depresion="alta"))
+    def manage_depression(self):
+        self.declare(Fact(response="Noto que estás lidiando con una alta depresión. La depresión es una condición seria, y es importante que busques ayuda profesional si sientes que no puedes manejarlo solo/a. Hablar con un terapeuta puede ser muy beneficioso. Además, intenta mantener una rutina diaria y realizar actividades que disfrutes, aunque sea difícil. Recuerda que no estás solo/a, y hay ayuda disponible para ti. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(ansiedad="alta"))
+    def manage_anxiety(self):
+        self.declare(Fact(response="Parece que estás lidiando con un alto nivel de ansiedad. La ansiedad puede ser difícil de manejar, pero hay varias estrategias que pueden ayudarte. Intenta técnicas de respiración y relajación, como la respiración profunda y la meditación. Aquí tienes un [video sobre técnicas de relajación](https://www.youtube.com/watch?v=aNXKjGFUlMs). Además, llevar un diario donde anotes tus pensamientos puede ayudarte a procesarlos mejor. Si la ansiedad persiste, considera hablar con un profesional. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(soledad="si"))
+    def manage_loneliness(self):
+        self.declare(Fact(response="Noto que te sientes solo/a. La soledad puede afectar tu bienestar emocional. Intenta conectar con amigos o participar en actividades sociales. Aquí tienes un [video sobre cómo combatir la soledad](https://www.youtube.com/watch?v=kPqvrcm8hWM). Si sientes que necesitas más apoyo, considera hablar con un terapeuta. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(insomnio="si"))
+    def manage_insomnia(self):
+        self.declare(Fact(response="Parece que estás teniendo problemas para dormir. El insomnio puede afectar seriamente tu bienestar. Intenta establecer una rutina de sueño regular, y evita el uso de dispositivos electrónicos al menos una hora antes de dormir. Un ambiente oscuro y tranquilo puede mejorar la calidad del sueño. Aquí tienes un [video con sonidos relajantes](https://www.youtube.com/watch?v=vs2U6BvZ4U4) que podría ayudarte a dormir mejor. Si el insomnio persiste, te recomendaría hablar con un profesional de la salud. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(salud_fisica="mala"))
+    def manage_physical_health(self):
+        self.declare(Fact(response="Veo que tu salud física no está en su mejor estado. Es fundamental cuidar de nuestro cuerpo para mantener también una buena salud mental. Intenta incorporar ejercicio regular en tu rutina diaria, aunque sea una caminata corta. Además, una dieta balanceada rica en frutas y verduras puede marcar una gran diferencia. Aquí tienes un [video sobre alimentación saludable](https://www.youtube.com/watch?v=vs2U6BvZ4U4). No dudes en consultar a un profesional de la salud para obtener más orientación."))
+
+    @Rule(Fact(depresion="alta"), Fact(ansiedad="alta"))
+    def combined_depression_anxiety(self):
+        self.declare(Fact(response="Noto que estás lidiando con alta depresión y ansiedad. Es importante que busques ayuda profesional para manejar estos síntomas. Intenta mantener una rutina diaria, realizar actividades que disfrutes y practicar técnicas de relajación. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(depresion="alta"), Fact(soledad="si"))
+    def combined_depression_loneliness(self):
+        self.declare(Fact(response="Veo que estás lidiando con alta depresión y te sientes solo/a. Es crucial que busques apoyo de amigos, familiares o un terapeuta. No enfrentes esto solo/a. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
+    @Rule(Fact(insomnio="si"), Fact(salud_fisica="mala"))
+    def combined_insomnia_physical_health(self):
+        self.declare(Fact(response="Parece que estás teniendo problemas para dormir y tu salud física no está en su mejor estado. Intenta mejorar tu rutina de sueño y realizar ejercicio regularmente. [Aquí tienes un video sobre cómo mejorar la calidad del sueño](https://www.youtube.com/watch?v=ks03wMzEQC0). [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+
 
     @Rule(Fact(input=MATCH.input))
     def process_user_input(self, input):
@@ -248,3 +280,11 @@ class PsychologicalSupport(KnowledgeEngine):
             handled = True
         if not handled:
             self.declare(Fact(response="Lo siento, no tengo una respuesta específica para eso. ¿Podrías describir más tu situación?"))
+        
+
+    def get_recommendations(self, facts):
+        self.reset()
+        for fact in facts:
+            self.declare(Fact(**fact))
+        self.run()
+        return [fact['response'] for fact in self.facts.values() if 'response' in fact]

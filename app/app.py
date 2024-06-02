@@ -58,7 +58,6 @@ def get_response():
             responses.append("Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat")
 
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
-
 @app.route('/process_assessment', methods=['POST'])
 def process_assessment():
     data = request.get_json()
@@ -105,13 +104,47 @@ def process_assessment():
         return jsonify({'error': str(e)}), 500
 
     responses = []
-    responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
-    responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
-    responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
-    responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
-    responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[1] * 100:.2f}%")
+    facts = []
+    
+    if r1.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
+        facts.append({"depresion": "alta"})
+    else:
+        responses.append(f"Probabilidad de padecer Depresión: {r1.values[0] * 100:.2f}%")
+        facts.append({"depresion": "baja"})
 
-    return jsonify({'responses': responses})
+    if r2.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
+        facts.append({"ansiedad": "alta"})
+    else:
+        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[0] * 100:.2f}%")
+        facts.append({"ansiedad": "baja"})
+        
+    if r3.values[1] >= 0.6:
+        responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
+        facts.append({"soledad": "si"})
+    else:
+        responses.append(f"Probabilidad de sentir Soledad: {r3.values[0] * 100:.2f}%")
+        facts.append({"soledad": "no"})
+        
+    if r4.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
+        facts.append({"insomnio": "si"})
+    else:    
+        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[0] * 100:.2f}%")
+        facts.append({"insomnio": "no"})
+        
+    if r5.values[1] >= 0.6:
+        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[1] * 100:.2f}%")
+        facts.append({"salud_fisica": "mala"})
+    else:    
+        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[0] * 100:.2f}%")
+        facts.append({"salud_fisica": "buena"})
+
+    # Obtener recomendaciones del motor de inferencia
+    recommendations = chatbot.get_recommendations(facts)
+
+    return jsonify({'responses': responses + recommendations})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
