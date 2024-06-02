@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from .models.users import User, db  
+from .models.users import User, db
 from .chatbot.inference import PsychologicalSupport
 from experta import Fact
 from flask_migrate import Migrate
+from .models.bayesian_network import create_bayesian_network
+from pgmpy.inference import VariableElimination
 from .models.conversation import Conversation
 
 load_dotenv('.env')
@@ -52,10 +54,14 @@ def register():
     return render_template('register.html')
 
 
+@app.route('/start_assessment', methods=['POST'])
+def start_assessment():
+    return jsonify({'status': 'assessment_started'})
+
 @app.route('/get_response', methods=['POST'])
 def get_response():
     user_input = request.form['user_input']
-    user_choice = request.form['user_choice']
+    user_choice = request.form.get('user_choice', '')  # Utiliza .get para evitar KeyError si no está presente
     chatbot.reset()
     chatbot.declare(Fact(input=user_input))
     chatbot.run()
@@ -88,7 +94,6 @@ def get_response():
             db.session.commit()
             
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
-
 @app.route('/save_conversation', methods=['POST'])
 def save_conversation():
     user_input = request.form['user_input']
@@ -102,17 +107,93 @@ def save_conversation():
             return jsonify({'status': 'success'})
     return jsonify({'status': 'failed'})
 
-@app.route('/start_assessment', methods=['POST'])
-def start_assessment():
-    questions = [
-        "¿Cómo describirías tu estado de ánimo en las últimas semanas?",
-        "¿Has tenido dificultades para dormir?",
-        "¿Te has sentido muy ansioso o preocupado recientemente?",
-        "¿Has perdido interés en actividades que solías disfrutar?",
-        "¿Te sientes agotado sin motivo aparente?",
-        "¿Has tenido pensamientos suicidas o de autolesión?"
-    ]
-    return jsonify({'questions': questions})
+@app.route('/process_assessment', methods=['POST'])
+def process_assessment():
+    data = request.get_json()
+    
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    
+    # Mapeo de preguntas a claves de evidencia
+    question_to_evidence_map = {
+        '¿Te sientes motivado últimamente?': 'Motivacion',
+        '¿Cómo describirías tu alimentación?': 'Alimentación',
+        '¿Recibes suficiente apoyo familiar?': 'Soporte Familiar',
+        '¿Tienes preocupaciones académicas?': 'Preocupacion Academica',
+        '¿Has tenido sentimientos suicidas?': 'Sentimientos Suicidas',
+        '¿Te sientes triste con frecuencia?': 'Tristeza',
+        '¿Te sientes cansado la mayor parte del tiempo?': 'Cansancio',
+        '¿Tienes un hábito regular de hacer deporte?': 'Hábito Deporte',
+        '¿Participas en actividades de ocio?': 'Actividades Ocio',
+        '¿Tienes interacciones sociales frecuentes?': 'Interacciones Sociales',
+        '¿Te sientes estresado con frecuencia?': 'Estrés'
+    }
+    
+    assessment_evidence = {}
+    for question, response in data.items():
+        if question in question_to_evidence_map:
+            evidence_key = question_to_evidence_map[question]
+            if response.lower() in ['sí', 'buena', 'suficiente']:
+                assessment_evidence[evidence_key] = 1
+            else:
+                assessment_evidence[evidence_key] = 0
+
+    print('Assessment Evidence:', assessment_evidence)
+    
+    # Realizar la inferencia en la red bayesiana
+    inference = create_bayesian_network()
+    
+    try:
+        r1 = inference.query(variables=['Depresión'], evidence=assessment_evidence)
+        r2 = inference.query(variables=['Ansiedad'], evidence=assessment_evidence)
+        r3 = inference.query(variables=['Soledad'], evidence=assessment_evidence)
+        r4 = inference.query(variables=['Insomnio'], evidence=assessment_evidence)
+        r5 = inference.query(variables=['Salud Física'], evidence=assessment_evidence)
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+    responses = []
+    facts = []
+    
+    if r1.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
+        facts.append({"depresión": "alta"})
+    else:
+        responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
+        facts.append({"depresión": "baja"})
+
+    if r2.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
+        facts.append({"ansiedad": "alta"})
+    else:
+        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
+        facts.append({"ansiedad": "baja"})
+        
+    if r3.values[1] >= 0.6:
+        responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
+        facts.append({"soledad": "si"})
+    else:
+        responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
+        facts.append({"soledad": "no"})
+        
+    if r4.values[1] >= 0.6:
+        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
+        facts.append({"insomnio": "si"})
+    else:    
+        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
+        facts.append({"insomnio": "no"})
+        
+    if r5.values[0] >= 0.6:
+        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[0] * 100:.2f}%")
+        facts.append({"salud_fisica": "mala"})
+    else:    
+        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[0] * 100:.2f}%")
+        facts.append({"salud_fisica": "buena"})
+
+    # Obtener recomendaciones del motor de inferencia
+    recommendations = chatbot.get_recommendations(facts)
+
+    return jsonify({'responses': responses + recommendations})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -143,8 +224,6 @@ def dashboard():
     else:
         flash('¡No has iniciado sesión!', 'warning')
         return redirect(url_for('login'))
-
-@app.route('/chatbot', methods=['POST'])
 
 @app.route('/logout')
 def logout():
