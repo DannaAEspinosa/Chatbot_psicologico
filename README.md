@@ -12,13 +12,58 @@ This project aims to develop a medium-complexity expert system using Python and 
 
 ## ⚙️ Installation
 
-Details on how to install and run the chatbot on your local machine or server.
+### Prerequisites
 
-```bash
-# Example of installation steps
-pip install -r requirements.txt
-python main.py
-```
+- Python 3.8 or higher
+- PostgreSQL
+- Flask
+- Flask-SQLAlchemy
+- Flask-Migrate
+- Experta
+- pgmpy
+- dotenv
+
+### Steps to Install and Run the Project
+
+1. **Clone the repository**:
+    ```bash
+    git clone https://github.com/your-repo/psychological-healthcare-chatbot.git
+    cd psychological-healthcare-chatbot
+    ```
+
+2. **Create a virtual environment**:
+    ```bash
+    python -m venv .venv
+    ```
+
+3. **Activate the virtual environment**:
+    - On Windows:
+      ```bash
+      .venv\Scripts\activate
+      ```
+    - On MacOS/Linux:
+      ```bash
+      source .venv/bin/activate
+      ```
+
+4. **Install the required dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+5. **Set up the PostgreSQL database**:
+    - Create a PostgreSQL database named `psychological_healthcare`.
+    - Update the `.env` file with your database credentials.
+
+6. **Run the database migrations**:
+    ```bash
+    flask db upgrade
+    ```
+
+7. **Run the application**:
+    ```bash
+    flask run
+    ```
 
 ## 🌟 Features
 
@@ -29,7 +74,17 @@ python main.py
 
 ## 🚀 Usage
 
-Instructions on how to interact with the chatbot, including example commands and responses.
+1. **Access the application**:
+    - Open your web browser and go to `http://127.0.0.1:5000/`.
+    
+2. **Register**:
+    - Click on the `Register` button and fill in your details to create an account.
+    
+3. **Login**:
+    - Click on the `Login` button and enter your credentials.
+
+4. **Use the Chatbot**:
+    - Once logged in, you can start interacting with the chatbot for psychological support.
 
 ## 🛠️ System Design
 
@@ -40,7 +95,6 @@ Instructions on how to interact with the chatbot, including example commands and
 ## 🔍 Testing and Validation
 
 Overview of testing methodologies used to ensure the chatbot's effectiveness, accuracy, and user experience, including usability testing and stress testing.
-
 
 ## 👥 Authors
 

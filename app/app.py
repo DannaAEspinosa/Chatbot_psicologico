@@ -7,6 +7,7 @@ from experta import Fact
 from flask_migrate import Migrate
 from .models.bayesian_network import create_bayesian_network
 from pgmpy.inference import VariableElimination
+from .models.conversation import Conversation
 
 load_dotenv('.env')
 
@@ -26,6 +27,33 @@ chatbot = PsychologicalSupport()
 def index():
     return render_template('index.html')
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        citizenship_card = request.form['citizenshipCard']
+        name = request.form['name']
+        last_name = request.form['lastName']
+        email = request.form['email']
+        password = request.form['password']
+        
+        # Verifica si el usuario ya existe
+        existing_user = User.query.filter_by(citizenshipCard=citizenship_card).first()
+        if existing_user:
+            flash('Un usuario con esta cédula ya existe', 'danger')
+            return redirect(url_for('register'))
+        
+        # Crea un nuevo usuario
+        new_user = User(citizenshipCard=citizenship_card, name=name, lastName=last_name, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
+        
+        flash('¡Registro exitoso! Por favor, inicia sesión.', 'success')
+        return redirect(url_for('login'))
+    
+    return render_template('register.html')
+
+
 @app.route('/start_assessment', methods=['POST'])
 def start_assessment():
     return jsonify({'status': 'assessment_started'})
@@ -39,7 +67,8 @@ def get_response():
     chatbot.run()
 
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
-
+    response_text = ' '.join(responses)
+    
     show_options = False
     show_initial_options = False
     if user_choice == "feelings":
@@ -56,8 +85,28 @@ def get_response():
             responses.append("Gracias por hablar conmigo. ¡Cuídate mucho!")
         else:
             responses.append("Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat")
-
+    
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+            
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
+@app.route('/save_conversation', methods=['POST'])
+def save_conversation():
+    user_input = request.form['user_input']
+    response_text = request.form['response_text']
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+    return jsonify({'status': 'failed'})
+
 @app.route('/process_assessment', methods=['POST'])
 def process_assessment():
     data = request.get_json()
@@ -157,10 +206,10 @@ def login():
             
             if user and user.password == password:
                 session['citizenshipCard'] = citizenship_card
-                flash('Login successful!', 'success')
+                flash('¡Inicio de sesión exitoso!', 'success')
                 return redirect(url_for('dashboard'))
             else:
-                flash('Invalid citizenship card or password', 'danger')
+                flash('Cédula o contraseña inválida', 'danger')
                 return redirect(url_for('login'))
         except Exception as e:
             flash(str(e), 'danger')
@@ -173,25 +222,19 @@ def dashboard():
     if 'citizenshipCard' in session:
         return render_template('chatbot.html')
     else:
-        flash('You are not logged in!', 'warning')
+        flash('¡No has iniciado sesión!', 'warning')
         return redirect(url_for('login'))
 
 @app.route('/logout')
 def logout():
     session.pop('citizenshipCard', None)
-    flash('You have been logged out!', 'info')
+    flash('¡Has cerrado sesión!', 'info')
     return redirect(url_for('login'))
 
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
 
-# Endpoint para crear tablas - eliminar después de crear la tabla
-@app.route('/create_tables')
-def create_tables():
-    with app.app_context():
-        db.create_all()
-    return "Tables created", 200
 
 if __name__ == '__main__':
     app.run(debug=True)

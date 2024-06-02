@@ -1,20 +1,32 @@
+<!-- templates/chatbot.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot de Apoyo Psicológico</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    <div class="header">
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+    </div>
     <div class="chat-container">
         <div id="chatbox" class="chatbox">
-            <div class="bot-message">Bienvenido al chatbot de apoyo psicológico. ¿Qué te gustaría hacer?</div>
+            <div class="bot-message">
+                <img src="{{ url_for('static', filename='profile.png') }}" alt="Profile Picture" class="profile-pic">
+                Bienvenido al chatbot de apoyo psicológico. ¿Qué te gustaría hacer?
+            </div>
             <div class="bot-message">1) Contar cómo te sientes</div>
             <div class="bot-message">2) Evaluar tu salud mental</div>
         </div>
-        <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
-        <button onclick="sendMessage()">Enviar</button>
+        <div class="input-container">
+            <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
     </div>
 
     <script>
@@ -61,7 +73,10 @@
                 .then(response => response.json())
                 .then(data => {
                     data.responses.forEach(response => {
-                        chatbox.innerHTML += `<div class="bot-message">${response}</div>`;
+                        chatbox.innerHTML += `<div class="bot-message">
+                            <img src="{{ url_for('static', filename='profile.png') }}" alt="Profile Picture" class="profile-pic">
+                            ${response}
+                        </div>`;
                     });
                     if (data.show_options) {
                         chatbox.innerHTML += `<div class="bot-message">¿Qué te gustaría hacer ahora?</div>`;
@@ -153,6 +168,35 @@
             firstInteraction = true;
             otherOptions = false;
             userChoice = "";
+        }
+
+        function startMentalHealthAssessment() {
+            fetch('/start_assessment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const chatbox = document.getElementById('chatbox');
+                data.questions.forEach(question => {
+                    chatbox.innerHTML += `<div class="bot-message">${question}</div>`;
+                });
+                chatbox.scrollTop = chatbox.scrollHeight;
+            });
+        }
+
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(() => {
+                window.location.href = '/login';
+            });
         }
     </script>
 </body>
