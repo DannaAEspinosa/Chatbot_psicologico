@@ -38,7 +38,7 @@ def register():
         # Verifica si el usuario ya existe
         existing_user = User.query.filter_by(citizenshipCard=citizenship_card).first()
         if existing_user:
-            flash('User with this citizenship card already exists', 'danger')
+            flash('Un usuario con esta cédula ya existe', 'danger')
             return redirect(url_for('register'))
         
         # Crea un nuevo usuario
@@ -46,7 +46,7 @@ def register():
         db.session.add(new_user)
         db.session.commit()
         
-        flash('Registration successful! Please log in.', 'success')
+        flash('¡Registro exitoso! Por favor, inicia sesión.', 'success')
         return redirect(url_for('login'))
     
     return render_template('register.html')
@@ -125,10 +125,10 @@ def login():
             
             if user and user.password == password:
                 session['citizenshipCard'] = citizenship_card
-                flash('Login successful!', 'success')
+                flash('¡Inicio de sesión exitoso!', 'success')
                 return redirect(url_for('dashboard'))
             else:
-                flash('Invalid citizenship card or password', 'danger')
+                flash('Cédula o contraseña inválida', 'danger')
                 return redirect(url_for('login'))
         except Exception as e:
             flash(str(e), 'danger')
@@ -141,7 +141,7 @@ def dashboard():
     if 'citizenshipCard' in session:
         return render_template('chatbot.html')
     else:
-        flash('You are not logged in!', 'warning')
+        flash('¡No has iniciado sesión!', 'warning')
         return redirect(url_for('login'))
 
 @app.route('/chatbot', methods=['POST'])
@@ -149,7 +149,7 @@ def dashboard():
 @app.route('/logout')
 def logout():
     session.pop('citizenshipCard', None)
-    flash('You have been logged out!', 'info')
+    flash('¡Has cerrado sesión!', 'info')
     return redirect(url_for('login'))
 
 @app.errorhandler(404)
