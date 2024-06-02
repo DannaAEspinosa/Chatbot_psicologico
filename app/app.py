@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from .models.users import User, db  
@@ -136,17 +137,23 @@ def login():
     
     return render_template('login.html')
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'citizenshipCard' not in session:
+            flash('Por favor, inicia sesión para acceder a esta página.', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/chatbot')
+@login_required
 def dashboard():
-    if 'citizenshipCard' in session:
-        return render_template('chatbot.html')
-    else:
-        flash('¡No has iniciado sesión!', 'warning')
-        return redirect(url_for('login'))
+    return render_template('chatbot.html')
+   
 
-@app.route('/chatbot', methods=['POST'])
 
-@app.route('/logout')
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('citizenshipCard', None)
     flash('¡Has cerrado sesión!', 'info')
