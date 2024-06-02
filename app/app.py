@@ -103,17 +103,6 @@ def save_conversation():
             return jsonify({'status': 'success'})
     return jsonify({'status': 'failed'})
 
-@app.route('/start_assessment', methods=['POST'])
-def start_assessment():
-    questions = [
-        "¿Cómo describirías tu estado de ánimo en las últimas semanas?",
-        "¿Has tenido dificultades para dormir?",
-        "¿Te has sentido muy ansioso o preocupado recientemente?",
-        "¿Has perdido interés en actividades que solías disfrutar?",
-        "¿Te sientes agotado sin motivo aparente?",
-        "¿Has tenido pensamientos suicidas o de autolesión?"
-    ]
-    return jsonify({'questions': questions})
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
