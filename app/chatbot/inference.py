@@ -101,14 +101,6 @@ class PsychologicalSupport(KnowledgeEngine):
     def feeling_lonely(self):
         self.declare(Fact(response="Noto que te sientes solo/a. La soledad puede afectar tu bienestar emocional. Intenta conectar con amigos o participar en actividades sociales. Aquí tienes un [video sobre cómo combatir la soledad](https://www.youtube.com/watch?v=kPqvrcm8hWM). Si sientes que necesitas más apoyo, considera hablar con un terapeuta. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
 
-    @Rule(Fact(estrés="alto"), Fact(ansiedad="alta"), salience=1)
-    def high_stress_and_anxiety(self):
-        result = inference.map_query(variables=['Depresión'], evidence={'Estrés': 1, 'Ansiedad': 1})
-        if result['Depresión'] == 1:
-            self.declare(Fact(response="El estrés y la ansiedad altos pueden llevar a la depresión. Es crucial abordar estos problemas lo antes posible. Intenta practicar técnicas de relajación y busca el apoyo de un profesional. Aquí tienes un [video sobre cómo manejar el estrés y la ansiedad](https://www.youtube.com/watch?v=w2wxI5iHDgs). [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
-        else:
-            self.declare(Fact(response="Aunque tienes estrés y ansiedad altos, no parece que estés desarrollando depresión, pero sigue siendo importante manejarlos. Intenta técnicas de relajación y busca apoyo si es necesario. Aquí tienes un [video sobre cómo manejar el estrés y la ansiedad](https://www.youtube.com/watch?v=w2wxI5iHDgs)."))
-
     @Rule(Fact(depresión="baja"), Fact(estado_animo="feliz"))
     def low_depression_and_happiness(self):
         self.declare(Fact(response="Es maravilloso saber que tienes un bajo nivel de depresión y te sientes feliz. Mantén tus hábitos saludables y sigue cuidando de tu bienestar emocional. Comparte tu felicidad con los demás y fortalece tus relaciones sociales. ¡Sigue así!"))
@@ -197,9 +189,9 @@ class PsychologicalSupport(KnowledgeEngine):
     def high_burnout_risk(self):
         self.declare(Fact(response="Noto que tienes un alto nivel de estrés, ansiedad y problemas para dormir, lo cual puede indicar un riesgo de burnout. Te recomiendo tomar medidas para reducir el estrés y mejorar tu calidad de sueño. Aquí tienes un [video sobre cómo manejar el burnout](https://www.youtube.com/watch?v=bzjWzzrbQWk)."))
 
-    @Rule(Fact(depresion="alta"))
+    @Rule(Fact(depresión="alta"))
     def manage_depression(self):
-        self.declare(Fact(response="Noto que estás lidiando con una alta depresión. La depresión es una condición seria, y es importante que busques ayuda profesional si sientes que no puedes manejarlo solo/a. Hablar con un terapeuta puede ser muy beneficioso. Además, intenta mantener una rutina diaria y realizar actividades que disfrutes, aunque sea difícil. Recuerda que no estás solo/a, y hay ayuda disponible para ti. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
+        self.declare(Fact(response="Noto que estás lidiando con un porcentaje de depresión. La depresión es una condición seria, y es importante que busques ayuda profesional si sientes que no puedes manejarlo solo/a. Hablar con un terapeuta puede ser muy beneficioso. Además, intenta mantener una rutina diaria y realizar actividades que disfrutes, aunque sea difícil. Recuerda que no estás solo/a, y hay ayuda disponible para ti. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
 
     @Rule(Fact(ansiedad="alta"))
     def manage_anxiety(self):
@@ -217,19 +209,10 @@ class PsychologicalSupport(KnowledgeEngine):
     def manage_physical_health(self):
         self.declare(Fact(response="Veo que tu salud física no está en su mejor estado. Es fundamental cuidar de nuestro cuerpo para mantener también una buena salud mental. Intenta incorporar ejercicio regular en tu rutina diaria, aunque sea una caminata corta. Además, una dieta balanceada rica en frutas y verduras puede marcar una gran diferencia. Aquí tienes un [video sobre alimentación saludable](https://www.youtube.com/watch?v=vs2U6BvZ4U4). No dudes en consultar a un profesional de la salud para obtener más orientación."))
 
-    @Rule(Fact(depresion="alta"), Fact(ansiedad="alta"))
-    def combined_depression_anxiety(self):
-        self.declare(Fact(response="Noto que estás lidiando con alta depresión y ansiedad. Es importante que busques ayuda profesional para manejar estos síntomas. Intenta mantener una rutina diaria, realizar actividades que disfrutes y practicar técnicas de relajación. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
-
-    @Rule(Fact(depresion="alta"), Fact(soledad="si"))
-    def combined_depression_loneliness(self):
-        self.declare(Fact(response="Veo que estás lidiando con alta depresión y te sientes solo/a. Es crucial que busques apoyo de amigos, familiares o un terapeuta. No enfrentes esto solo/a. [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
-
-    @Rule(Fact(insomnio="si"), Fact(salud_fisica="mala"))
-    def combined_insomnia_physical_health(self):
-        self.declare(Fact(response="Parece que estás teniendo problemas para dormir y tu salud física no está en su mejor estado. Intenta mejorar tu rutina de sueño y realizar ejercicio regularmente. [Aquí tienes un video sobre cómo mejorar la calidad del sueño](https://www.youtube.com/watch?v=ks03wMzEQC0). [Aquí puedes encontrar atención psicológica gratuita](https://www.icesi.edu.co/centros-academicos/capsi/?start=2)."))
-
-
+    @Rule(Fact(insomnio="no"), Fact(salud_fisica="buena"), Fact(depresión="baja"), Fact(ansiedad="baja"),Fact(soledad="no"))
+    def good_mental_health(self):
+        self.declare(Fact(response="Al parecer, tu salud mental y física están en buen estado. ¡Eso es genial! Sigue cuidando de ti mismo/a y manteniendo hábitos saludables. Recuerda que es importante seguir practicando el autocuidado y buscar ayuda si sientes que lo necesitas."))
+        
     @Rule(Fact(input=MATCH.input))
     def process_user_input(self, input):
         handled = False

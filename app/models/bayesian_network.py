@@ -61,8 +61,8 @@ def create_bayesian_network():
     
     
     cpd_ansiedad = TabularCPD(variable='Ansiedad', variable_card=2, 
-                              values=[[0.9, 0.6, 0.7, 0.3, 0.8, 0.5, 0.6, 0.2], 
-                                      [0.1, 0.4, 0.3, 0.7, 0.2, 0.5, 0.4, 0.8]],
+                              values=[[0.8, 0.6, 0.7, 0.3, 0.8, 0.5, 0.6, 0.2], 
+                                      [0.2, 0.4, 0.3, 0.7, 0.2, 0.5, 0.4, 0.8]],
                               evidence=['Interacciones Sociales', 'Preocupacion Academica', 'Estrés'], evidence_card=[2, 2, 2])
     
     cpd_sentimientos_suicidas = TabularCPD(variable='Sentimientos Suicidas', variable_card=2, values=[[0.95], [0.05]])
@@ -70,8 +70,8 @@ def create_bayesian_network():
     cpd_tristeza = TabularCPD(variable='Tristeza', variable_card=2, values=[[0.8], [0.2]])
     
     cpd_depresion = TabularCPD(variable='Depresión', variable_card=2, 
-                               values=[[0.9, 0.7, 0.8, 0.6, 0.7, 0.5, 0.6, 0.4], 
-                                       [0.1, 0.3, 0.2, 0.4, 0.3, 0.5, 0.4, 0.6]],
+                               values=[[0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2], 
+                                       [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]],
                                evidence=['Sentimientos Suicidas', 'Tristeza', 'Soledad'], evidence_card=[2, 2, 2])
     
     cpd_cansancio = TabularCPD(variable='Cansancio', variable_card=2, values=[[0.7], [0.3]])

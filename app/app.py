@@ -157,34 +157,34 @@ def process_assessment():
     
     if r1.values[1] >= 0.6:
         responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
-        facts.append({"depresion": "alta"})
+        facts.append({"depresión": "alta"})
     else:
-        responses.append(f"Probabilidad de padecer Depresión: {r1.values[0] * 100:.2f}%")
-        facts.append({"depresion": "baja"})
+        responses.append(f"Probabilidad de padecer Depresión: {r1.values[1] * 100:.2f}%")
+        facts.append({"depresión": "baja"})
 
     if r2.values[1] >= 0.6:
         responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
         facts.append({"ansiedad": "alta"})
     else:
-        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[0] * 100:.2f}%")
+        responses.append(f"Probabilidad de padecer Ansiedad: {r2.values[1] * 100:.2f}%")
         facts.append({"ansiedad": "baja"})
         
     if r3.values[1] >= 0.6:
         responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
         facts.append({"soledad": "si"})
     else:
-        responses.append(f"Probabilidad de sentir Soledad: {r3.values[0] * 100:.2f}%")
+        responses.append(f"Probabilidad de sentir Soledad: {r3.values[1] * 100:.2f}%")
         facts.append({"soledad": "no"})
         
     if r4.values[1] >= 0.6:
         responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
         facts.append({"insomnio": "si"})
     else:    
-        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[0] * 100:.2f}%")
+        responses.append(f"Probabilidad de padecer Insomnio: {r4.values[1] * 100:.2f}%")
         facts.append({"insomnio": "no"})
         
-    if r5.values[1] >= 0.6:
-        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[1] * 100:.2f}%")
+    if r5.values[0] >= 0.6:
+        responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[0] * 100:.2f}%")
         facts.append({"salud_fisica": "mala"})
     else:    
         responses.append(f"Probabilidad de tener problemas de Salud Física futuras: {r5.values[0] * 100:.2f}%")
