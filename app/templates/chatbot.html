@@ -60,8 +60,10 @@
                 handleInitialChoice(userInput);
             } else if (otherOptions) {
                 otherChoice(userInput);
+
             } else if (userChoice === "assessment") {
                 askNextQuestion(); // Iniciar la evaluación médica
+
             } else {
                 fetch('/get_response', {
                     method: 'POST',
@@ -92,6 +94,7 @@
                 });
             }
         }
+
 
         function handleInitialChoice(choice) {
             const chatbox = document.getElementById('chatbox');
@@ -170,6 +173,7 @@
             userChoice = "";
         }
 
+
         function startMentalHealthAssessment() {
             fetch('/start_assessment', {
                 method: 'POST',
@@ -186,6 +190,7 @@
                 chatbox.scrollTop = chatbox.scrollHeight;
             });
         }
+
 
         function logout() {
             fetch('/logout', {

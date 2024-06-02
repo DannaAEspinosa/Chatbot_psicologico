@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from .models.users import User, db
@@ -94,6 +95,7 @@ def get_response():
             db.session.commit()
             
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
+
 @app.route('/save_conversation', methods=['POST'])
 def save_conversation():
     user_input = request.form['user_input']
@@ -106,6 +108,7 @@ def save_conversation():
             db.session.commit()
             return jsonify({'status': 'success'})
     return jsonify({'status': 'failed'})
+
 
 @app.route('/process_assessment', methods=['POST'])
 def process_assessment():
@@ -195,6 +198,7 @@ def process_assessment():
 
     return jsonify({'responses': responses + recommendations})
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -217,15 +221,23 @@ def login():
     
     return render_template('login.html')
 
-@app.route('/chatbot')
-def dashboard():
-    if 'citizenshipCard' in session:
-        return render_template('chatbot.html')
-    else:
-        flash('¡No has iniciado sesión!', 'warning')
-        return redirect(url_for('login'))
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'citizenshipCard' not in session:
+            flash('Por favor, inicia sesión para acceder a esta página.', 'warning')
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
-@app.route('/logout')
+@app.route('/chatbot')
+@login_required
+def dashboard():
+    return render_template('chatbot.html')
+   
+
+
+@app.route('/logout', methods=['POST'])
 def logout():
     session.pop('citizenshipCard', None)
     flash('¡Has cerrado sesión!', 'info')
