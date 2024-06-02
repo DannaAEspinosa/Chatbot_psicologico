@@ -35,7 +35,8 @@ def get_response():
     chatbot.run()
 
     responses = [fact['response'] for fact in chatbot.facts.values() if 'response' in fact]
-
+    response_text = ' '.join(responses)
+    
     show_options = False
     show_initial_options = False
     if user_choice == "feelings":
@@ -52,9 +53,28 @@ def get_response():
             responses.append("Gracias por hablar conmigo. ¡Cuídate mucho!")
         else:
             responses.append("Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat")
-
+    
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+            
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
 
+@app.route('/save_conversation', methods=['POST'])
+def save_conversation():
+    user_input = request.form['user_input']
+    response_text = request.form['response_text']
+    if 'citizenshipCard' in session:
+        user = User.query.filter_by(citizenshipCard=session['citizenshipCard']).first()
+        if user:
+            new_conversation = Conversation(user_id=user.id, message=user_input, response=response_text)
+            db.session.add(new_conversation)
+            db.session.commit()
+            return jsonify({'status': 'success'})
+    return jsonify({'status': 'failed'})
 @app.route('/start_assessment', methods=['POST'])
 def start_assessment():
     questions = [
