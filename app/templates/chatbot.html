@@ -1,26 +1,37 @@
+<!-- templates/chatbot.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chatbot de Apoyo Psicológico</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='chatbot.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    <div class="header">
+        <button class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i> Salir
+        </button>
+    </div>
     <div class="chat-container">
         <div id="chatbox" class="chatbox">
-            <div class="bot-message">Bienvenido al chatbot de apoyo psicológico. ¿Qué te gustaría hacer?</div>
+            <div class="bot-message">
+                <img src="{{ url_for('static', filename='profile.png') }}" alt="Profile Picture" class="profile-pic">
+                Bienvenido al chatbot de apoyo psicológico. ¿Qué te gustaría hacer?
+            </div>
             <div class="bot-message">1) Contar cómo te sientes</div>
             <div class="bot-message">2) Evaluar tu salud mental</div>
         </div>
-        <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
-        <button onclick="sendMessage()">Enviar</button>
-        <button onclick="saveConversation()">Guardar Conversación</button>
+        <div class="input-container">
+            <input id="user-input" class="user-input" type="text" placeholder="Escribe tu elección aquí...">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
     </div>
 
     <script>
         let firstInteraction = true;
-        let otherOptions=false;
+        let otherOptions = false;
         let userChoice = "";
 
         function sendMessage() {
@@ -34,7 +45,7 @@
                 handleInitialChoice(userInput);
             } else if(otherOptions){
                 otherChoice(userInput);
-            }else {
+            } else {
                 fetch('/get_response', {
                     method: 'POST',
                     headers: {
@@ -45,14 +56,17 @@
                 .then(response => response.json())
                 .then(data => {
                     data.responses.forEach(response => {
-                        chatbox.innerHTML += `<div class="bot-message">${response}</div>`;
+                        chatbox.innerHTML += `<div class="bot-message">
+                            <img src="{{ url_for('static', filename='profile.png') }}" alt="Profile Picture" class="profile-pic">
+                            ${response}
+                        </div>`;
                     });
                     if (data.show_options) {
                         chatbox.innerHTML += `<div class="bot-message">¿Qué te gustaría hacer ahora?</div>`;
                         chatbox.innerHTML += `<div class="bot-message">1) Decir algo más</div>`;
                         chatbox.innerHTML += `<div class="bot-message">2) Volver al inicio</div>`;
                         chatbox.innerHTML += `<div class="bot-message">3) Finalizar chat</div>`;
-                        otherOptions=true
+                        otherOptions = true;
                         firstInteraction = false;
                     } else if (data.show_initial_options) {
                         showInitialOptions();
@@ -66,16 +80,15 @@
             const chatbox = document.getElementById('chatbox');
             if (choice === "1") {
                 chatbox.innerHTML += `<div class="bot-message">Perfecto, cuéntame más.</div>`;
-                otherOptions=false;
+                otherOptions = false;
             } else if (choice === "2") {
                 showInitialOptions();
-            } else if (choice === "3"){
+            } else if (choice === "3") {
                 chatbox.innerHTML += `<div class="bot-message">Gracias por confiar en mí ;). ¡Cuídate mucho!</div>`;
-            } else{
+            } else {
                 chatbox.innerHTML += `<div class="bot-message">Por favor, elige una opción válida: 1) Decir algo más 2) Volver al inicio 3) Finalizar chat</div>`;
             }
             chatbox.scrollTop = chatbox.scrollHeight;
-
         }
 
         function handleInitialChoice(choice) {
@@ -101,7 +114,7 @@
             chatbox.innerHTML += `<div class="bot-message">1) Contar cómo te sientes</div>`;
             chatbox.innerHTML += `<div class="bot-message">2) Evaluar tu salud mental</div>`;
             firstInteraction = true;
-            otherOptions=false
+            otherOptions = false;
             userChoice = "";
         }
 
@@ -119,27 +132,18 @@
                     chatbox.innerHTML += `<div class="bot-message">${question}</div>`;
                 });
                 chatbox.scrollTop = chatbox.scrollHeight;
-
-                // Guardar la conversación al obtener la respuesta
-                saveConversation(userInput, data.responses.join(' '));
             });
         }
 
-        function saveConversation(userInput, responseText) {
-            fetch('/save_conversation', {
+        function logout() {
+            fetch('/logout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: `user_input=${encodeURIComponent(userInput)}&response_text=${encodeURIComponent(responseText)}`
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    console.log('Conversación guardada exitosamente.');
-                } else {
-                    console.log('Error al guardar la conversación.');
                 }
+            })
+            .then(() => {
+                window.location.href = '/login';
             });
         }
     </script>
