@@ -53,18 +53,6 @@ def get_response():
 
     return jsonify({'responses': responses, 'show_options': show_options, 'show_initial_options': show_initial_options})
 
-@app.route('/start_assessment', methods=['POST'])
-def start_assessment():
-    questions = [
-        "¿Cómo describirías tu estado de ánimo en las últimas semanas?",
-        "¿Has tenido dificultades para dormir?",
-        "¿Te has sentido muy ansioso o preocupado recientemente?",
-        "¿Has perdido interés en actividades que solías disfrutar?",
-        "¿Te sientes agotado sin motivo aparente?",
-        "¿Has tenido pensamientos suicidas o de autolesión?"
-    ]
-    return jsonify({'questions': questions})
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

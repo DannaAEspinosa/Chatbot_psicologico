@@ -157,16 +157,57 @@ class PsychologicalSupport(KnowledgeEngine):
     def good_support_and_social_interactions(self):
         self.declare(Fact(response="Es excelente saber que tienes suficiente apoyo familiar y frecuentes interacciones sociales. Mantén estos hábitos, ya que son muy beneficiosos para tu bienestar emocional. Sigue disfrutando de tu tiempo con seres queridos y fortaleciendo tus relaciones. ¡Sigue así!"))
 
+    @Rule(Fact(hábito_deporte="poco"), Fact(salud_física="mala"))
+    def low_exercise_and_poor_health(self):
+        self.declare(Fact(response="La falta de ejercicio y una salud física deficiente pueden afectar tu bienestar general. Intenta incorporar más actividad física en tu rutina diaria y mejorar tu alimentación. Aquí tienes un [video sobre cómo empezar a hacer ejercicio](https://www.youtube.com/watch?v=UItWltVZZmE)."))
+
+    @Rule(Fact(motivacion="baja"), Fact(estado_animo="triste"))
+    def low_motivation_and_sadness(self):
+        self.declare(Fact(response="La baja motivación y sentirte triste pueden ser señales de que necesitas apoyo adicional. Intenta establecer pequeñas metas diarias para mantenerte motivado/a. Aquí tienes un [video sobre cómo aumentar la motivación](https://www.youtube.com/watch?v=On5HMOwvy9o)."))
+
+    @Rule(Fact(fatiga="alta"), Fact(salud_física="mala"))
+    def high_fatigue_and_poor_health(self):
+        self.declare(Fact(response="La alta fatiga y una salud física deficiente pueden afectar gravemente tu bienestar. Asegúrate de descansar lo suficiente y mejorar tus hábitos alimenticios. Aquí tienes un [video sobre cómo combatir la fatiga](https://www.youtube.com/watch?v=YNwrqOdlrxE)."))
+
+    @Rule(Fact(ansiedad="alta"), Fact(fatiga="alta"))
+    def high_anxiety_and_fatigue(self):
+        self.declare(Fact(response="La alta ansiedad y la fatiga pueden ser una combinación agotadora. Practicar técnicas de relajación y asegurarte de descansar lo suficiente puede ayudarte a sentirte mejor. Aquí tienes un [video sobre técnicas de relajación](https://www.youtube.com/watch?v=aNXKjGFUlMs)."))
+
+    @Rule(Fact(salud_física="mala"), Fact(alimentacion="mala"), Fact(hábito_deporte="poco"))
+    def high_physical_health_risk(self):
+        self.declare(Fact(response="Veo que tienes una mala salud física, una alimentación inadecuada y haces poco ejercicio. Esto puede aumentar el riesgo de problemas de salud físicos. Te recomiendo mejorar tu dieta y aumentar tu actividad física. Aquí tienes un [video sobre hábitos saludables](https://www.youtube.com/watch?v=vs2U6BvZ4U4)."))
+
+    @Rule(Fact(estrés="alto"), Fact(estado_animo="triste"), Fact(ansiedad="alta"), Fact(depresión="alta"))
+    def poor_mental_state(self):
+        self.declare(Fact(response="Parece que estás experimentando altos niveles de estrés, tristeza, ansiedad y depresión. Es importante buscar ayuda profesional para manejar estos sentimientos. Aquí tienes un [video sobre técnicas para mejorar la salud mental](https://www.youtube.com/watch?v=w2wxI5iHDgs)."))
+
+    @Rule(Fact(interacciones_sociales="poco"), Fact(soledad="si"))
+    def poor_social_relationships(self):
+        self.declare(Fact(response="Observo que tienes pocas interacciones sociales y te sientes solo/a. Intenta conectar más con amigos o participar en actividades grupales. Aquí tienes un [video sobre cómo mejorar las relaciones sociales](https://www.youtube.com/watch?v=eZJ46ab0S_o)."))
+
+    @Rule(Fact(insomnio="si"), Fact(fatiga="alta"))
+    def poor_sleep_quality(self):
+        self.declare(Fact(response="Parece que tienes problemas para dormir y te sientes muy fatigado/a. Te recomiendo establecer una rutina de sueño y evitar el uso de dispositivos electrónicos antes de dormir. Aquí tienes un [video sobre cómo mejorar la calidad del sueño](https://www.youtube.com/watch?v=ks03wMzEQC0)."))
+    
+    @Rule(Fact(estado_animo="feliz"), Fact(interacciones_sociales="frecuente"), Fact(soporte_familiar="suficiente"))
+    def high_general_satisfaction(self):
+        self.declare(Fact(response="Observo que te sientes feliz y tienes buenas interacciones sociales y apoyo familiar. Es excelente que mantengas estos hábitos. Sigue cuidando de tu bienestar y fortaleciendo tus relaciones. ¡Sigue así!"))
+
+    @Rule(Fact(estrés="alto"), Fact(ansiedad="alta"), Fact(insomnio="si"))
+    def high_burnout_risk(self):
+        self.declare(Fact(response="Noto que tienes un alto nivel de estrés, ansiedad y problemas para dormir, lo cual puede indicar un riesgo de burnout. Te recomiendo tomar medidas para reducir el estrés y mejorar tu calidad de sueño. Aquí tienes un [video sobre cómo manejar el burnout](https://www.youtube.com/watch?v=bzjWzzrbQWk)."))
+
+
     @Rule(Fact(input=MATCH.input))
     def process_user_input(self, input):
         handled = False
         if any(word in input.lower() for word in ["estresado", "tengo estrés", "estresada", "mucho estrés", "estres", "estresante", "estresarme", "me siento estresado", "me siento estresada"]):
             self.modify(self.facts[3], estrés="alto")
             handled = True
-        if any(word in input.lower() for word in ["triste", "me siento mal", "deprimida", "decaído", "decaída", "depresivo", "desanimado", "desanimada", "melancólico", "melancólica", "abatido", "abatida"]):
+        if any(word in input.lower() for word in ["mal","triste", "me siento mal", "deprimida", "decaído", "decaída", "depresivo", "desanimado", "desanimada", "melancólico", "melancólica", "abatido", "abatida"]):
             self.modify(self.facts[2], estado_animo="triste")
             handled = True
-        if any(word in input.lower() for word in ["feliz", "contento", "contenta", "alegre", "animado", "animada", "eufórico", "eufórica", "satisfecho", "satisfecha"]):
+        if any(word in input.lower() for word in ["bien","feliz", "contento", "contenta", "alegre", "animado", "animada", "eufórico", "eufórica", "satisfecho", "satisfecha"]):
             self.modify(self.facts[2], estado_animo="feliz")
             handled = True
         if any(word in input.lower() for word in ["ansioso", "tengo ansiedad", "nervioso", "nerviosa", "ansiedad", "inquieto", "inquieta", "preocupado", "preocupada", "angustiado", "angustiada"]):
@@ -202,7 +243,7 @@ class PsychologicalSupport(KnowledgeEngine):
         if any(word in input.lower() for word in ["cansado", "fatigado", "sin energía", "agotado", "cansancio extremo", "me siento exhausto", "me siento exhausta", "no tengo energía", "me siento fatigado", "me siento fatigada"]):
             self.modify(self.facts[14], fatiga="alta")
             handled = True
-        if any(word in input.lower() for word in ["suicidio", "quiero morir", "quiero matarme", "sin sentido vivir", "terminar mi vida", "no quiero vivir", "me quiero suicidar", "pensamientos suicidas"]):
+        if any(word in input.lower() for word in ["suicidio", "quiero morir", "quiero matarme", "sin sentido vivir", "terminar mi vida", "no quiero vivir", "me quiero suicidar", "me quiero matar", "pensamientos suicidas"]):
             self.modify(self.facts[15], sentimientos_suicidas="si")
             handled = True
         if not handled:
