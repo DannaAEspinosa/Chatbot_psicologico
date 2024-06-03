@@ -15,7 +15,7 @@ load_dotenv('.env')
 
 app = Flask(__name__)
 # Configuración de la base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://psychological_healthcare_user:uTk3D6ZzkObl6SO46HNeOsVyE4Gi0b8k@dpg-cpefln5ds78s73evpbj0-a/psychological_healthcare'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://psychological_healthcare_user:uTk3D6ZzkObl6SO46HNeOsVyE4Gi0b8k@dpg-cpefln5ds78s73evpbj0-a/psychological_healthcare'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Configuración de la clave secreta
